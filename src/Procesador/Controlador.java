@@ -1,4 +1,4 @@
-package Procesador;
+package Procesador
 
 import java.net.URL;
 import java.util.ResourceBundle;
