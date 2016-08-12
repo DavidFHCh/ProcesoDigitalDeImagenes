@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="ProcesoDigitalDeImagenes" default="ProcesadorDeImagenes.jar" basedir="." >
+
+  <property name="build.dir" value="build" />
+  <property name="src.dir"   value="src" />
+  <property name="doc.dir"   value="doc" />
+
+  <target name="ProcesadorDeImagenes.jar" depends="compile.Procesador">
+    <jar jarfile="ProcesadorDeImagenes.jar">
+      <zipfileset dir="${build.dir}" prefix="" />
+      <manifest>
+        <attribute name="Main-Class" value="Procesador.ProcesadorDeImagenes"/>
+      </manifest>
+    </jar>
+  </target>
+
+  <target name="compile.Procesador">
+    <mkdir dir="${build.dir}"/>
+    <javac srcdir="${src.dir}"
+           destdir="${build.dir}"
+           debug="true"
+           debuglevel="lines,vars,source"
+           includeantruntime="false"
+           deprecation="true"
+           nowarn="off">
+    </javac>
+    <copy todir="build/Procesador">
+      <fileset dir="src/Procesador" includes="**/*.fxml"/>
+    </copy>
+  </target>
+
+  <target name="doc" depends="ProcesadorDeImagenes.jar">
+    <mkdir dir="${doc.dir}"/>
+    <javadoc packagenames="Procesador.*"
+             sourcepath="src"
+             defaultexcludes="yes"
+             destdir="${doc.dir}"
+             charset="UTF-8"
+             author="true"
+             version="false"
+             use="true"
+             windowtitle="Proceso Digital De Imagenes">
+      <doctitle><![CDATA[<h1>Procesador de Imagenes</h1>]]></doctitle>
+      <link href="http://docs.oracle.com/javase/8/docs/api/" />
+    </javadoc>
+  </target>
+
+  <target name="clean">
+    <delete file="ProcesadorDeImagenes.jar"/>
+    <delete dir="${build.dir}"/>
+    <delete dir="${doc.dir}"/>
+    <delete dir="${dist.dir}"/>
+  </target>
+
+</project>
