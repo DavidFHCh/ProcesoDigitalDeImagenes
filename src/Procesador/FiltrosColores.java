@@ -68,27 +68,61 @@ public class FiltrosColores extends Thread{
 		}			
 	}
 
+	public void repetidoByN(int color){
+		for(int i = 0; i < this.width; i++){
+			for(int j = 0; j < this.height; j++){
+				double sum = 0;
+				Color c = pr.getColor(i,j);
+				Color c1 = null;
+				switch (color){
+					case 1:
+						this.r = c.getRed();
+						c1 = Color.color(r,r,r);
+						break;
+					case 2:
+						this.g = c.getGreen();
+						c1 = Color.color(g,g,g);
+						break;
+					case 3:
+						this.b = c.getBlue();
+						c1 = Color.color(b,b,b);
+						break;
+				}
+				pw.setColor(i,j,c1);
+			}
+
+		}			
+	}
+
 
 	public void run(){
-		switch(operation){
-			case 1:
-				this.promByN1();
-				break;
-			case 2:
-				this.realByN();
-				break;
-			default:
-				System.out.println("Error");
+		try{
+			switch(operation){
+				case 1:
+					this.promByN1();
+					break;
+				case 2:
+					this.realByN();
+					break;
+				case 3:
+					this.repetidoByN(1);
+					break;
+				case 4:
+					this.repetidoByN(2);
+					break;
+				case 5:
+					this.repetidoByN(3);
+					break;
+				default:
+					System.out.println("Error");
+			}
+		}catch(Exception e){
+			Controlador.alerta("Error","Intenta de nuevo.");
 		}
 	}
 
 	public void start(){
-		if(t == null){
-			t = new Thread(this);
-			t.start();
-		}else{
-			System.out.println("what");
-			//t.start();
-		}
+		t = new Thread(this);
+		t.start();
 	}	
 }

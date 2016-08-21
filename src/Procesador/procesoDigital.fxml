@@ -19,9 +19,9 @@
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#filtroPromedioByN" text="Promedio" />
                 <MenuItem mnemonicParsing="false" onAction="#filtroRealByN" text="Real" />
-                  <MenuItem mnemonicParsing="false" text="(G,G,G)" />
-                  <MenuItem mnemonicParsing="false" text="(R,R,R)" />
-                  <MenuItem mnemonicParsing="false" text="(B,B,B)" />
+                  <MenuItem mnemonicParsing="false" onAction="#filtroRepetidoGByN" text="(G,G,G)" />
+                  <MenuItem mnemonicParsing="false" onAction="#filtroRepetidoRByN" text="(R,R,R)" />
+                  <MenuItem mnemonicParsing="false" onAction="#filtroRepetidoBByN" text="(B,B,B)" />
               </items>
             </Menu>
           <Menu mnemonicParsing="false" text="Ayuda">
