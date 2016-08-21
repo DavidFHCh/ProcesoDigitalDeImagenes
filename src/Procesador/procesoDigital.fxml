@@ -15,16 +15,15 @@
               <MenuItem fx:id="abrirImagen" mnemonicParsing="false" onAction="#abrirImagen" text="Abrir Imagen" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="Filtros">
+            <Menu mnemonicParsing="false" text="ByN">
               <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" onAction="#filtroPromedioByN" text="Promedio" />
+                <MenuItem mnemonicParsing="false" onAction="#filtroRealByN" text="Real" />
+                  <MenuItem mnemonicParsing="false" text="(G,G,G)" />
+                  <MenuItem mnemonicParsing="false" text="(R,R,R)" />
+                  <MenuItem mnemonicParsing="false" text="(B,B,B)" />
               </items>
             </Menu>
-          <Menu mnemonicParsing="false" text="Mas Filtros">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
           <Menu mnemonicParsing="false" text="Ayuda">
             <items>
               <MenuItem mnemonicParsing="false" text="About" />
