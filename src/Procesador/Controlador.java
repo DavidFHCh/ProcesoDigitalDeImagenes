@@ -46,7 +46,7 @@ public class Controlador implements Initializable {
     @FXML
     private void abrirImagen(ActionEvent abrirImg) throws FileNotFoundException {
         FileChooser fileChooser = new FileChooser();
-        boolean t = (image == null);
+        boolean t = (image == null);// solo creo un pixelwriter, si no, se genera un error de escritura.
         fileChooser.setTitle("Seleccionar Imagen");
         fileChooser.getExtensionFilters().addAll(
                 new ExtensionFilter("Image Files", "*.png", "*.jpg"));
@@ -56,13 +56,14 @@ public class Controlador implements Initializable {
             Platform.runLater(() -> imagenProcesada.setImage(image));
             Platform.runLater(() -> imagenOriginal.setImage(image));
             pr = this.crearPR();
-            if(t)
+            if(t)//esta es la t que checo en la linea 49. para solo tener un pixelwriter.
                 pw = this.crearPW();
             width = (int)image.getWidth();
             height = (int)image.getHeight();
         }
     }
 
+    //En escencia todos los metodos que siguen son lo mismo, necesito ayuda para saber que es lo que tengo que sincrinizar, si es que se requiere.
     @FXML
     private void filtroPromedioByN(ActionEvent event) throws Exception{
         try{
@@ -70,7 +71,7 @@ public class Controlador implements Initializable {
             synchronized(this){
             fc.start();
             }
-            Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+            Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));//Esta parecia una solucion al bug que sucede, solo disminuyo la cantidad de ocirrencias de este.
         }catch(Exception e){
              alerta("No hay Imagen.","Favor de abrir una imagen");
         }

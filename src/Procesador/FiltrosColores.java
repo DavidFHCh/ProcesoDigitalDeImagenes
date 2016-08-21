@@ -34,6 +34,10 @@ public class FiltrosColores extends Thread{
 	//filtro (R;R;R) (GGG)(BBB)
 	//micas
 	//mosaico
+
+	/**
+	* Filtro de blanco y negro, calcula el gris (R+G+B)/3.
+	*/
 	public void promByN1(){
 		for(int i = 0; i < this.width; i++){
 			for(int j = 0; j < this.height; j++){
@@ -51,6 +55,10 @@ public class FiltrosColores extends Thread{
 		}			
 	}
 
+	/**
+	* Filtro de blanco y negro, calcula el gris multiplicando por numeros magicos,obtenidos
+	* por gente que hizo calculos especiales.
+	*/
 	public void realByN(){
 		for(int i = 0; i < this.width; i++){
 			for(int j = 0; j < this.height; j++){
@@ -68,6 +76,10 @@ public class FiltrosColores extends Thread{
 		}			
 	}
 
+	/**
+	* Estos son tres filtros si el 'color' es 1 el gris es (R,R,R), si es 2 es (G,G,G), si es 3 entonces (B,B,B).
+	* @param color un entero entre 1 y 3.
+	*/
 	public void repetidoByN(int color){
 		for(int i = 0; i < this.width; i++){
 			for(int j = 0; j < this.height; j++){
@@ -94,7 +106,9 @@ public class FiltrosColores extends Thread{
 		}			
 	}
 
-
+	/**
+	* Metodo para el Thread, se elige el filtro a realizar.
+	*/
 	public void run(){
 		try{
 			switch(operation){
@@ -121,6 +135,9 @@ public class FiltrosColores extends Thread{
 		}
 	}
 
+	/**
+	* Empieza el Thread.
+	*/
 	public void start(){
 		t = new Thread(this);
 		t.start();
