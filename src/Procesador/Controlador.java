@@ -23,6 +23,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 
 /**
  *
@@ -30,24 +31,26 @@ import javafx.scene.control.Button;
  */
 public class Controlador implements Initializable {
     
-    @FXML
-    private ImageView imagenOriginal;
+    @FXML private ImageView imagenOriginal;
 
 
-    @FXML
-    private ImageView imagenProcesada;
+    @FXML private ImageView imagenProcesada;
 
-    @FXML
-    private Slider sliderRed;
+    @FXML private Slider sliderRed;
 
-    @FXML
-    private Slider sliderGreen;
+    @FXML private Slider sliderGreen;
 
-    @FXML
-    private Slider sliderBlue;
+    @FXML private Slider sliderBlue;
 
-    @FXML
-    private Button buttonAccept;
+    @FXML private Button buttonAccept;
+
+    @FXML private Button buttonAccept1;
+
+    @FXML private TextField alto;
+
+    @FXML private TextField ancho;
+
+
 
     private WritableImage imagenNueva;
     private PixelReader pr;
@@ -58,6 +61,8 @@ public class Controlador implements Initializable {
     private static double rojo;
     private static double azul;
     private static double verde;
+    private static int alto1;
+    private static int ancho1;
     
     
     @FXML
@@ -93,7 +98,7 @@ public class Controlador implements Initializable {
             synchronized(fc){
             fc.start();
             }
-            synchronized(this){
+            synchronized(imagenProcesada){
             javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));//Esta parecia una solucion al bug que sucede, solo disminuyo la cantidad de ocirrencias de este.
             }
         }catch(Exception e){
@@ -108,7 +113,7 @@ public class Controlador implements Initializable {
             synchronized(fc){
             fc.start();
             }
-            synchronized(this){
+            synchronized(imagenProcesada){
             javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
             }
         }catch(Exception e){
@@ -123,7 +128,7 @@ public class Controlador implements Initializable {
             synchronized(fc){
             fc.start();
             }
-            synchronized(this){
+            synchronized(imagenProcesada){
             javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
             }
 
@@ -139,7 +144,7 @@ public class Controlador implements Initializable {
             synchronized(fc){
             fc.start();
             }
-            synchronized(this){
+            synchronized(imagenProcesada){
             javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
             }
         }catch(Exception e){
@@ -154,7 +159,7 @@ public class Controlador implements Initializable {
             synchronized(fc){
             fc.start();
             }
-            synchronized(this){
+            synchronized(imagenProcesada){
             javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
             }
         }catch(Exception e){
@@ -169,7 +174,7 @@ public class Controlador implements Initializable {
             synchronized(fc){
             fc.start();
             }
-            synchronized(this){
+            synchronized(imagenProcesada){
             javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
             }
         }catch(Exception e){
@@ -184,7 +189,7 @@ public class Controlador implements Initializable {
             synchronized(fc){
             fc.start();
             }
-            synchronized(this){
+            synchronized(imagenProcesada){
             javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
             }
         }catch(Exception e){
@@ -199,7 +204,7 @@ public class Controlador implements Initializable {
             synchronized(fc){
             fc.start();
             }
-            synchronized(this){
+            synchronized(imagenProcesada){
             javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
             }
         }catch(Exception e){
@@ -211,12 +216,11 @@ public class Controlador implements Initializable {
     private void filtroColoresCombinados(ActionEvent event){
         try{
             newWindow("micasCombinadas.fxml","Micas Combinadas");
-            System.out.println(rojo);
             FiltrosColores fc = new FiltrosColores(pw,pr,width,height,9,rojo,verde,azul);
             synchronized(fc){
                 fc.start();
             }
-            synchronized(this){
+            synchronized(imagenProcesada){
                 javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva)); 
             }
         }catch(Exception e){
@@ -231,6 +235,30 @@ public class Controlador implements Initializable {
          azul = sliderBlue.getValue();
           Stage stage = (Stage)buttonAccept.getScene().getWindow();
     stage.close();
+    }
+
+    @FXML
+    private void filtroMosaico(ActionEvent event){
+        try{
+            newWindow("mosaicos.fxml","Mosaicos");
+            Mosaico mos = new Mosaico(pw,pr,width,height,alto1,ancho1);
+            synchronized(mos){
+                mos.start();
+            }
+            synchronized(imagenProcesada){
+                javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva)); 
+            }
+        }catch(Exception e){
+            alerta("No hay Imagen.","Favor de abrir una imagen");
+        }
+    }
+
+    @FXML
+    private void filtroMosaicoAux(ActionEvent event){
+        alto1 = Integer.parseInt(alto.getCharacters().toString());
+        ancho1 = Integer.parseInt(ancho.getCharacters().toString());
+        Stage stage = (Stage)buttonAccept1.getScene().getWindow();
+        stage.close();
     }
 
     private PixelWriter crearPW(){

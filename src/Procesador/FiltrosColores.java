@@ -4,7 +4,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.image.*;
 
 
-public class FiltrosColores extends Thread{
+public class FiltrosColores implements Runnable{
 
 	private Thread t;
 
@@ -169,7 +169,7 @@ public class FiltrosColores extends Thread{
 				green2 = (int) (green);
 				blue2 = (int) (blue);
 
-				red3 = red1 & red2;
+				red3 = red1 & red2; // aqui es donde combina los colores.
 				green3 = green1 & green2;
 				blue3 = blue1 & blue2;
 
