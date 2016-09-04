@@ -42,9 +42,13 @@ public class Controlador implements Initializable {
 
     @FXML private Slider sliderBlue;
 
+    @FXML private Slider sliderBrillo;
+
     @FXML private Button buttonAccept;
 
     @FXML private Button buttonAccept1;
+
+    @FXML private Button buttonAccept2;
 
     @FXML private TextField alto;
 
@@ -61,6 +65,7 @@ public class Controlador implements Initializable {
     private static double rojo;
     private static double azul;
     private static double verde;
+    private static double brillo;
     private static int alto1;
     private static int ancho1;
     
@@ -103,7 +108,7 @@ public class Controlador implements Initializable {
                     fc.run();
                     
                     synchronized(imagenProcesada){
-                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));//Esta parecia una solucion al bug que sucede, solo disminuyo la cantidad de ocirrencias de este.
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
                     }
                     return null;
                 }
@@ -128,7 +133,7 @@ public class Controlador implements Initializable {
                     fc.run();
                     
                     synchronized(imagenProcesada){
-                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));//Esta parecia una solucion al bug que sucede, solo disminuyo la cantidad de ocirrencias de este.
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
                     }
                     return null;
                 }
@@ -152,7 +157,7 @@ public class Controlador implements Initializable {
                     fc.run();
                     
                     synchronized(imagenProcesada){
-                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));//Esta parecia una solucion al bug que sucede, solo disminuyo la cantidad de ocirrencias de este.
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
                     }
                     return null;
                 }
@@ -176,7 +181,7 @@ public class Controlador implements Initializable {
                     fc.run();
                     
                     synchronized(imagenProcesada){
-                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));//Esta parecia una solucion al bug que sucede, solo disminuyo la cantidad de ocirrencias de este.
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
                     }
                     return null;
                 }
@@ -200,7 +205,7 @@ public class Controlador implements Initializable {
                     fc.run();
                     
                     synchronized(imagenProcesada){
-                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));//Esta parecia una solucion al bug que sucede, solo disminuyo la cantidad de ocirrencias de este.
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
                     }
                     return null;
                 }
@@ -224,7 +229,7 @@ public class Controlador implements Initializable {
                     fc.run();
                     
                     synchronized(imagenProcesada){
-                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));//Esta parecia una solucion al bug que sucede, solo disminuyo la cantidad de ocirrencias de este.
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
                     }
                     return null;
                 }
@@ -248,7 +253,7 @@ public class Controlador implements Initializable {
                     fc.run();
                     
                     synchronized(imagenProcesada){
-                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));//Esta parecia una solucion al bug que sucede, solo disminuyo la cantidad de ocirrencias de este.
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
                     }
                     return null;
                 }
@@ -272,7 +277,7 @@ public class Controlador implements Initializable {
                     fc.run();
                     
                     synchronized(imagenProcesada){
-                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));//Esta parecia una solucion al bug que sucede, solo disminuyo la cantidad de ocirrencias de este.
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
                     }
                     return null;
                 }
@@ -297,7 +302,7 @@ public class Controlador implements Initializable {
                     fc.run();
                     
                     synchronized(imagenProcesada){
-                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));//Esta parecia una solucion al bug que sucede, solo disminuyo la cantidad de ocirrencias de este.
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
                     }
                     return null;
                 }
@@ -331,7 +336,7 @@ public class Controlador implements Initializable {
                     mos.run();
                     
                     synchronized(imagenProcesada){
-                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));//Esta parecia una solucion al bug que sucede, solo disminuyo la cantidad de ocirrencias de este.
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
                     }
                     return null;
                 }
@@ -348,6 +353,88 @@ public class Controlador implements Initializable {
         alto1 = Integer.parseInt(alto.getCharacters().toString());
         ancho1 = Integer.parseInt(ancho.getCharacters().toString());
         Stage stage = (Stage)buttonAccept1.getScene().getWindow();
+        stage.close();
+    }
+
+    @FXML
+    private void filtroAltoContraste(ActionEvent event){
+        try{
+            AltoContraste fc = new AltoContraste(pw,pr,width,height,1);
+            synchronized(fc){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    fc.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
+            }
+            
+        }catch(Exception e){
+             alerta("No hay Imagen.","Favor de abrir una imagen");
+        }
+    }
+
+     @FXML
+    private void filtroAltoContrasteInverso(ActionEvent event){
+        try{
+            AltoContraste fc = new AltoContraste(pw,pr,width,height,2);
+            synchronized(fc){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    fc.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
+            }
+            
+        }catch(Exception e){
+             alerta("No hay Imagen.","Favor de abrir una imagen");
+        }
+    }
+
+    @FXML
+    private void filtroBrillo(ActionEvent event){
+        try{
+            newWindow("Brillo.fxml","Brillo");
+            Brillo fc = new Brillo(pw,pr,width,height,brillo/255);
+            synchronized(fc){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    fc.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
+            }
+        }catch(Exception e){
+            alerta("No hay Imagen.","Favor de abrir una imagen");
+        }catch(Throwable t){}
+    }
+
+    @FXML
+    private void filtroBrilloAux(ActionEvent event){
+        brillo = sliderBrillo.getValue();
+        Stage stage = (Stage)buttonAccept2.getScene().getWindow();
         stage.close();
     }
 
@@ -385,10 +472,6 @@ public class Controlador implements Initializable {
             stage.showAndWait();
     }
 
-    private void limpia(ImageView iv){
-        iv = null;
-        iv = new ImageView();
-    }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {

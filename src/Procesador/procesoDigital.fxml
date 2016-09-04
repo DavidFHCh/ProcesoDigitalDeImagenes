@@ -37,8 +37,15 @@
                   <MenuItem mnemonicParsing="false" onAction="#filtroRepetidoBByN" text="(B,B,B)" />
               </items>
             </Menu>
+            <Menu mnemonicParsing="false" text="AltoContraste">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#filtroAltoContraste" text="Normal" />
+                  <MenuItem mnemonicParsing="false" onAction="#filtroAltoContrasteInverso" text="Inverso" />
+              </items>
+            </Menu>
             <Menu mnemonicParsing="false" text="Varios">
               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#filtroBrillo" text="Brillo" />
                 <MenuItem mnemonicParsing="false" onAction="#filtroMosaico" text="Mosaico" />
               </items>
             </Menu>
