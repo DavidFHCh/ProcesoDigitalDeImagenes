@@ -4,9 +4,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.image.*;
 
 
-public class FiltrosColores implements Runnable{
+public class FiltrosColores{
 
-	private Thread t;
 
 	PixelWriter pw;
 	PixelReader pr;
@@ -16,9 +15,9 @@ public class FiltrosColores implements Runnable{
 	double red; 
 	double green; 
 	double blue;
-	private double r;
-	private double g;
-	private double b; 
+	protected double r;
+	protected double g;
+	protected double b; 
 
 
 	public FiltrosColores(PixelWriter pw1,PixelReader pr1,int width1, int height1, int operation1){
@@ -225,11 +224,4 @@ public class FiltrosColores implements Runnable{
 		}
 	}
 
-	/**
-	* Empieza el Thread.
-	*/
-	public void start(){
-		t = new Thread(this);
-		t.start();
-	}	
 }

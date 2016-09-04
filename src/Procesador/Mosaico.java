@@ -4,9 +4,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.image.*;
 import java.util.*;
 
-public class Mosaico implements Runnable{
+public class Mosaico{
 
-	private Thread t;
 	private int alto;
 	private int ancho;
 	PixelWriter pw;
@@ -71,10 +70,6 @@ public class Mosaico implements Runnable{
 		mosaico();
 	}
 
-	public void start(){
-		t = new Thread(this);
-		t.start();
-	}
 		
 
 }

@@ -18,6 +18,12 @@ public class ProcesadorDeImagenes extends Application {
         
         Scene scene = new Scene(root);
         
+        Thread.currentThread().setUncaughtExceptionHandler((thread, throwable) -> {
+            System.out.println("Handler caught exception: "+throwable.getMessage());
+            try{
+            start(stage);
+            }catch(Exception e){System.out.println("what");}
+        });
         stage.setTitle("The Eye");
         stage.setScene(scene);
         stage.setResizable(false);

@@ -24,6 +24,7 @@ import javafx.stage.Stage;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.concurrent.Task;
 
 /**
  *
@@ -32,7 +33,6 @@ import javafx.scene.control.TextField;
 public class Controlador implements Initializable {
     
     @FXML private ImageView imagenOriginal;
-
 
     @FXML private ImageView imagenProcesada;
 
@@ -96,11 +96,21 @@ public class Controlador implements Initializable {
         try{
             FiltrosColores fc = new FiltrosColores(pw,pr,width,height,1);
             synchronized(fc){
-            fc.start();
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    fc.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));//Esta parecia una solucion al bug que sucede, solo disminuyo la cantidad de ocirrencias de este.
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
             }
-            synchronized(imagenProcesada){
-            javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));//Esta parecia una solucion al bug que sucede, solo disminuyo la cantidad de ocirrencias de este.
-            }
+            
         }catch(Exception e){
              alerta("No hay Imagen.","Favor de abrir una imagen");
         }
@@ -111,14 +121,23 @@ public class Controlador implements Initializable {
         try{
             FiltrosColores fc = new FiltrosColores(pw,pr,width,height,2);
             synchronized(fc){
-            fc.start();
-            }
-            synchronized(imagenProcesada){
-            javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    fc.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));//Esta parecia una solucion al bug que sucede, solo disminuyo la cantidad de ocirrencias de este.
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
             }
         }catch(Exception e){
              alerta("No hay Imagen.","Favor de abrir una imagen");
-        }
+        }catch(Throwable t){}
     }
 
     @FXML
@@ -126,15 +145,23 @@ public class Controlador implements Initializable {
         try{
             FiltrosColores fc = new FiltrosColores(pw,pr,width,height,3);
             synchronized(fc){
-            fc.start();
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    fc.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));//Esta parecia una solucion al bug que sucede, solo disminuyo la cantidad de ocirrencias de este.
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
             }
-            synchronized(imagenProcesada){
-            javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
-            }
-
         }catch(Exception e){
              alerta("No hay Imagen.","Favor de abrir una imagen");
-        }
+        }catch(Throwable t){}
     }
 
     @FXML
@@ -142,29 +169,47 @@ public class Controlador implements Initializable {
         try{
             FiltrosColores fc = new FiltrosColores(pw,pr,width,height,4);
             synchronized(fc){
-            fc.start();
-            }
-            synchronized(imagenProcesada){
-            javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    fc.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));//Esta parecia una solucion al bug que sucede, solo disminuyo la cantidad de ocirrencias de este.
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
             }
         }catch(Exception e){
             alerta("No hay Imagen.","Favor de abrir una imagen");
-        }
+        }catch(Throwable t){}
     }
 
     @FXML
     private void filtroRepetidoBByN(ActionEvent event){
         try{
             FiltrosColores fc = new FiltrosColores(pw,pr,width,height,5);
-            synchronized(fc){
-            fc.start();
-            }
-            synchronized(imagenProcesada){
-            javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+           synchronized(fc){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    fc.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));//Esta parecia una solucion al bug que sucede, solo disminuyo la cantidad de ocirrencias de este.
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
             }
         }catch(Exception e){
             alerta("No hay Imagen.","Favor de abrir una imagen");
-        }
+        }catch(Throwable t){}
     }
 
     @FXML
@@ -172,14 +217,23 @@ public class Controlador implements Initializable {
         try{
             FiltrosColores fc = new FiltrosColores(pw,pr,width,height,6);
             synchronized(fc){
-            fc.start();
-            }
-            synchronized(imagenProcesada){
-            javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    fc.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));//Esta parecia una solucion al bug que sucede, solo disminuyo la cantidad de ocirrencias de este.
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
             }
         }catch(Exception e){
             alerta("No hay Imagen.","Favor de abrir una imagen");
-        }
+        }catch(Throwable t){}
     }
 
      @FXML
@@ -187,29 +241,47 @@ public class Controlador implements Initializable {
         try{
             FiltrosColores fc = new FiltrosColores(pw,pr,width,height,7);
             synchronized(fc){
-            fc.start();
-            }
-            synchronized(imagenProcesada){
-            javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    fc.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));//Esta parecia una solucion al bug que sucede, solo disminuyo la cantidad de ocirrencias de este.
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
             }
         }catch(Exception e){
             alerta("No hay Imagen.","Favor de abrir una imagen");
-        }
+        }catch(Throwable t){}
     }
 
      @FXML
     private void filtroMicaAzul(ActionEvent event){
         try{
             FiltrosColores fc = new FiltrosColores(pw,pr,width,height,8);
-            synchronized(fc){
-            fc.start();
-            }
-            synchronized(imagenProcesada){
-            javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+           synchronized(fc){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    fc.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));//Esta parecia una solucion al bug que sucede, solo disminuyo la cantidad de ocirrencias de este.
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
             }
         }catch(Exception e){
             alerta("No hay Imagen.","Favor de abrir una imagen");
-        }
+        }catch(Throwable t){}
     }
 
     @FXML
@@ -218,14 +290,23 @@ public class Controlador implements Initializable {
             newWindow("micasCombinadas.fxml","Micas Combinadas");
             FiltrosColores fc = new FiltrosColores(pw,pr,width,height,9,rojo,verde,azul);
             synchronized(fc){
-                fc.start();
-            }
-            synchronized(imagenProcesada){
-                javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva)); 
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    fc.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));//Esta parecia una solucion al bug que sucede, solo disminuyo la cantidad de ocirrencias de este.
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
             }
         }catch(Exception e){
             alerta("No hay Imagen.","Favor de abrir una imagen");
-        }
+        }catch(Throwable t){}
     }
 
     @FXML
@@ -242,15 +323,24 @@ public class Controlador implements Initializable {
         try{
             newWindow("mosaicos.fxml","Mosaicos");
             Mosaico mos = new Mosaico(pw,pr,width,height,alto1,ancho1);
-            synchronized(mos){
-                mos.start();
-            }
-            synchronized(imagenProcesada){
-                javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva)); 
+           synchronized(mos){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    mos.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));//Esta parecia una solucion al bug que sucede, solo disminuyo la cantidad de ocirrencias de este.
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
             }
         }catch(Exception e){
             alerta("No hay Imagen.","Favor de abrir una imagen");
-        }
+        }catch(Throwable t){}
     }
 
     @FXML
@@ -293,6 +383,11 @@ public class Controlador implements Initializable {
             stage.setResizable(false);
 
             stage.showAndWait();
+    }
+
+    private void limpia(ImageView iv){
+        iv = null;
+        iv = new ImageView();
     }
     
     @Override
