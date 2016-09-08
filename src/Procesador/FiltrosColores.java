@@ -46,11 +46,6 @@ public class FiltrosColores{
 		this.blue = blue;
 	}
 
-	//tarea filtro gris (R+G+B)/3
-	//filtro R*0.3    g*0.59 b*0.11
-	//filtro (R;R;R) (GGG)(BBB)
-	//micas
-	//mosaico
 
 	/**
 	* Filtro de blanco y negro, calcula el gris (R+G+B)/3.
@@ -182,10 +177,7 @@ public class FiltrosColores{
 
 		}	
 	}
-
-	/**
-	* Metodo para el Thread, se elige el filtro a realizar.
-	*/
+	
 	public void run(){
 		try{
 			switch(operation){

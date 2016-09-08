@@ -99,7 +99,7 @@ public class Controlador implements Initializable {
     @FXML
     private void filtroPromedioByN(ActionEvent event){
         try{
-            FiltrosColores fc = new FiltrosColores(pw,pr,width,height,1);
+            FiltrosColores fc = new FiltrosColores(crearPW(),pr,width,height,1);
             synchronized(fc){
                 Thread hilo = new Thread(new Task() {
                 
@@ -124,7 +124,7 @@ public class Controlador implements Initializable {
     @FXML
     private void filtroRealByN(ActionEvent event){
         try{
-            FiltrosColores fc = new FiltrosColores(pw,pr,width,height,2);
+            FiltrosColores fc = new FiltrosColores(crearPW(),pr,width,height,2);
             synchronized(fc){
                 Thread hilo = new Thread(new Task() {
                 
@@ -148,7 +148,7 @@ public class Controlador implements Initializable {
     @FXML
     private void filtroRepetidoRByN(ActionEvent event){
         try{
-            FiltrosColores fc = new FiltrosColores(pw,pr,width,height,3);
+            FiltrosColores fc = new FiltrosColores(crearPW(),pr,width,height,3);
             synchronized(fc){
                 Thread hilo = new Thread(new Task() {
                 
@@ -172,7 +172,7 @@ public class Controlador implements Initializable {
     @FXML
     private void filtroRepetidoGByN(ActionEvent event){
         try{
-            FiltrosColores fc = new FiltrosColores(pw,pr,width,height,4);
+            FiltrosColores fc = new FiltrosColores(crearPW(),pr,width,height,4);
             synchronized(fc){
                 Thread hilo = new Thread(new Task() {
                 
@@ -196,7 +196,7 @@ public class Controlador implements Initializable {
     @FXML
     private void filtroRepetidoBByN(ActionEvent event){
         try{
-            FiltrosColores fc = new FiltrosColores(pw,pr,width,height,5);
+            FiltrosColores fc = new FiltrosColores(crearPW(),pr,width,height,5);
            synchronized(fc){
                 Thread hilo = new Thread(new Task() {
                 
@@ -220,7 +220,7 @@ public class Controlador implements Initializable {
     @FXML
     private void filtroMicaRoja(ActionEvent event){
         try{
-            FiltrosColores fc = new FiltrosColores(pw,pr,width,height,6);
+            FiltrosColores fc = new FiltrosColores(crearPW(),pr,width,height,6);
             synchronized(fc){
                 Thread hilo = new Thread(new Task() {
                 
@@ -244,7 +244,7 @@ public class Controlador implements Initializable {
      @FXML
     private void filtroMicaVerde(ActionEvent event){
         try{
-            FiltrosColores fc = new FiltrosColores(pw,pr,width,height,7);
+            FiltrosColores fc = new FiltrosColores(crearPW(),pr,width,height,7);
             synchronized(fc){
                 Thread hilo = new Thread(new Task() {
                 
@@ -268,7 +268,7 @@ public class Controlador implements Initializable {
      @FXML
     private void filtroMicaAzul(ActionEvent event){
         try{
-            FiltrosColores fc = new FiltrosColores(pw,pr,width,height,8);
+            FiltrosColores fc = new FiltrosColores(crearPW(),pr,width,height,8);
            synchronized(fc){
                 Thread hilo = new Thread(new Task() {
                 
@@ -293,7 +293,7 @@ public class Controlador implements Initializable {
     private void filtroColoresCombinados(ActionEvent event){
         try{
             newWindow("micasCombinadas.fxml","Micas Combinadas");
-            FiltrosColores fc = new FiltrosColores(pw,pr,width,height,9,rojo,verde,azul);
+            FiltrosColores fc = new FiltrosColores(crearPW(),pr,width,height,9,rojo,verde,azul);
             synchronized(fc){
                 Thread hilo = new Thread(new Task() {
                 
@@ -327,7 +327,7 @@ public class Controlador implements Initializable {
     private void filtroMosaico(ActionEvent event){
         try{
             newWindow("mosaicos.fxml","Mosaicos");
-            Mosaico mos = new Mosaico(pw,pr,width,height,alto1,ancho1);
+            Mosaico mos = new Mosaico(crearPW(),pr,width,height,alto1,ancho1);
            synchronized(mos){
                 Thread hilo = new Thread(new Task() {
                 
@@ -359,7 +359,7 @@ public class Controlador implements Initializable {
     @FXML
     private void filtroAltoContraste(ActionEvent event){
         try{
-            AltoContraste fc = new AltoContraste(pw,pr,width,height,1);
+            AltoContraste fc = new AltoContraste(crearPW(),pr,width,height,1);
             synchronized(fc){
                 Thread hilo = new Thread(new Task() {
                 
@@ -384,7 +384,7 @@ public class Controlador implements Initializable {
      @FXML
     private void filtroAltoContrasteInverso(ActionEvent event){
         try{
-            AltoContraste fc = new AltoContraste(pw,pr,width,height,2);
+            AltoContraste fc = new AltoContraste(crearPW(),pr,width,height,2);
             synchronized(fc){
                 Thread hilo = new Thread(new Task() {
                 
@@ -410,7 +410,7 @@ public class Controlador implements Initializable {
     private void filtroBrillo(ActionEvent event){
         try{
             newWindow("Brillo.fxml","Brillo");
-            Brillo fc = new Brillo(pw,pr,width,height,brillo/255);
+            Brillo fc = new Brillo(crearPW(),pr,width,height,brillo/255);
             synchronized(fc){
                 Thread hilo = new Thread(new Task() {
                 
@@ -431,11 +431,363 @@ public class Controlador implements Initializable {
         }catch(Throwable t){}
     }
 
+
+
     @FXML
     private void filtroBrilloAux(ActionEvent event){
         brillo = sliderBrillo.getValue();
         Stage stage = (Stage)buttonAccept2.getScene().getWindow();
         stage.close();
+    }
+
+    @FXML
+    private void filtroConvolucionOrignal(ActionEvent event){
+        try{
+            Convolucion fc = new Convolucion(crearPW(),pr,width,height,1);
+            synchronized(fc){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    fc.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
+            }
+            
+        }catch(Exception e){
+             alerta("No hay Imagen.","Favor de abrir una imagen");
+        }
+    }
+
+    @FXML
+    private void filtroConvolucionBlur(ActionEvent event){
+        try{
+            Convolucion fc = new Convolucion(crearPW(),pr,width,height,2);
+            synchronized(fc){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    fc.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
+            }
+            
+        }catch(Exception e){
+             alerta("No hay Imagen.","Favor de abrir una imagen");
+        }
+    }
+
+    @FXML
+    private void filtroConvolucionMoreBlur(ActionEvent event){
+        try{
+            Convolucion fc = new Convolucion(crearPW(),pr,width,height,3);
+            synchronized(fc){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    fc.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
+            }
+            
+        }catch(Exception e){
+             alerta("No hay Imagen.","Favor de abrir una imagen");
+        }
+    }
+
+     @FXML
+    private void filtroConvolucionMotionBlur(ActionEvent event){
+        try{
+            Convolucion fc = new Convolucion(crearPW(),pr,width,height,4);
+            synchronized(fc){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    fc.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
+            }
+            
+        }catch(Exception e){
+             alerta("No hay Imagen.","Favor de abrir una imagen");
+        }
+    }
+
+    @FXML
+    private void filtroConvolucionHorizontalEdges(ActionEvent event){
+        try{
+            Convolucion fc = new Convolucion(crearPW(),pr,width,height,5);
+            synchronized(fc){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    fc.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
+            }
+            
+        }catch(Exception e){
+             alerta("No hay Imagen.","Favor de abrir una imagen");
+        }
+    }
+
+     @FXML
+    private void filtroConvolucionVerticalEdges(ActionEvent event){
+        try{
+            Convolucion fc = new Convolucion(crearPW(),pr,width,height,6);
+            synchronized(fc){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    fc.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
+            }
+            
+        }catch(Exception e){
+             alerta("No hay Imagen.","Favor de abrir una imagen");
+        }
+    }
+
+     @FXML
+    private void filtroConvolucionDegreeEdges(ActionEvent event){
+        try{
+            Convolucion fc = new Convolucion(crearPW(),pr,width,height,7);
+            synchronized(fc){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    fc.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
+            }
+            
+        }catch(Exception e){
+             alerta("No hay Imagen.","Favor de abrir una imagen");
+        }
+    }
+
+    @FXML
+    private void filtroConvolucionAllEdges(ActionEvent event){
+        try{
+            Convolucion fc = new Convolucion(crearPW(),pr,width,height,8);
+            synchronized(fc){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    fc.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
+            }
+            
+        }catch(Exception e){
+             alerta("No hay Imagen.","Favor de abrir una imagen");
+        }
+    }
+
+    @FXML
+    private void filtroConvolucionSharpen(ActionEvent event){
+        try{
+            Convolucion fc = new Convolucion(crearPW(),pr,width,height,9);
+            synchronized(fc){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    fc.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
+            }
+            
+        }catch(Exception e){
+             alerta("No hay Imagen.","Favor de abrir una imagen");
+        }
+    }
+
+    @FXML
+    private void filtroConvolucionSubtleSharpen(ActionEvent event){
+        try{
+            Convolucion fc = new Convolucion(crearPW(),pr,width,height,10);
+            synchronized(fc){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    fc.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
+            }
+            
+        }catch(Exception e){
+             alerta("No hay Imagen.","Favor de abrir una imagen");
+        }
+    }
+
+     @FXML
+    private void filtroConvolucionExcessSharpen(ActionEvent event){
+        try{
+            Convolucion fc = new Convolucion(crearPW(),pr,width,height,11);
+            synchronized(fc){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    fc.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
+            }
+            
+        }catch(Exception e){
+             alerta("No hay Imagen.","Favor de abrir una imagen");
+        }
+    }
+
+     @FXML
+    private void filtroConvolucionEmboss(ActionEvent event){
+        try{
+            Convolucion fc = new Convolucion(crearPW(),pr,width,height,12);
+            synchronized(fc){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    fc.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
+            }
+            
+        }catch(Exception e){
+             alerta("No hay Imagen.","Favor de abrir una imagen");
+        }
+    }
+
+    @FXML
+    private void filtroConvolucionExaggeratedEmboss(ActionEvent event){
+        try{
+            Convolucion fc = new Convolucion(crearPW(),pr,width,height,13);
+            synchronized(fc){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    fc.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
+            }
+            
+        }catch(Exception e){
+             alerta("No hay Imagen.","Favor de abrir una imagen");
+        }
+    }
+
+    @FXML
+    private void filtroConvolucionMean(ActionEvent event){
+        try{
+            Convolucion fc = new Convolucion(crearPW(),pr,width,height,14);
+            synchronized(fc){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    fc.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
+            }
+            
+        }catch(Exception e){
+             alerta("No hay Imagen.","Favor de abrir una imagen");
+        }
     }
 
     private PixelWriter crearPW(){
