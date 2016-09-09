@@ -4,24 +4,24 @@ import javafx.scene.paint.Color;
 import javafx.scene.image.*;
 
 
-public class Convolucion extends FiltrosColores{
+public class Convolucion{
 
 
-	private final static double original[][] = {{0,0,0},
+	private  double original[][] = {{0,0,0},
 						   {0,1,0},
 						   {0,0,0}};
 
-	private final static double blur[][] = {{0,0.2,0},
+	private  double blur[][] = {{0,0.2,0},
 					   {0.2,0.2,0.2},
 					   {0,0.2,0}};
 
-	private final static double moreBlur[][] = {{0,0,1,0,0},
+	private  double moreBlur[][] = {{0,0,1,0,0},
 						   {0,1,1,1,0},
 						   {1,1,1,1,1},
 						   {0,1,1,1,0},
 						   {0,0,1,0,0}};
 
-	private final static double motionBlur[][] = {{1,0,0,0,0,0,0,0,0},
+	private  double motionBlur[][] = {{1,0,0,0,0,0,0,0,0},
 							{0,1,0,0,0,0,0,0,0},
 							{0,0,1,0,0,0,0,0,0},
 							{0,0,0,1,0,0,0,0,0},
@@ -31,104 +31,137 @@ public class Convolucion extends FiltrosColores{
 							{0,0,0,0,0,0,0,1,0},
 							{0,0,0,0,0,0,0,0,1}};
 
-	private final static double horizontalEdges[][] = {{0,0,-1,0,0},
+	private  double horizontalEdges[][] = {{0,0,-1,0,0},
 								  {0,0,-1,0,0},
 								  {0,0,2,0,0},
 								  {0,0,0,0,0},
 								  {0,0,0,0,0}};
 
-	private final static double verticalEdges[][] = {{0,0,-1,0,0},
+	private  double verticalEdges[][] = {{0,0,-1,0,0},
 								{0,0,-1,0,0},
 								{0,0,4,0,0},
 								{0,0,-1,0,0},
 								{0,0,-1,0,0}};
 
-	private final static double degree45Edges[][] = {{1,0,0,0,0},
+	private  double degree45Edges[][] = {{-1,0,0,0,0},
 								{0,-2,0,0,0},
 								{0,0,6,0,0},
 								{0,0,0,-2,0},
 								{0,0,0,0,-1}};
 
-	private final static double allEdges[][] = {{-1,-1,-1},
+	private  double allEdges[][] = {{-1,-1,-1},
 						   {-1,8,-1},
 						   {-1,-1,-1}};
 
-	private final static double sharpen[][] = {{-1,-1,-1},
+	private  double sharpen[][] = {{-1,-1,-1},
 						   {-1,9,-1},
 						   {-1,-1,-1}};
 
-	private final static double subtleSharpen[][] = {{-1,-1,-1,-1,-1},
+	private  double subtleSharpen[][] = {{-1,-1,-1,-1,-1},
 								{-1,2,2,2,-1},
 								{-1,2,8,2,-1},
 								{-1,2,2,2,-1},
 								{-1,-1,-1,-1,-1}};
 
-	private final static double excessSharpen[][] = {{1,1,1},
-						   		{1,-8,1},
+	private  double excessSharpen[][] = {{1,1,1},
+						   		{1,-7,1},
 						   		{1,1,1}};
 
-	private final static double emboss[][] = {{-1,-1,0},
+	private  double emboss[][] = {{-1,-1,0},
 						 {-1,0,1},
 						 {0,1,1}};
 								
-	private final static double exaggeratedEmboss[][] = {{-1,-1,-1,-1,0},
+	private  double exaggeratedEmboss[][] = {{-1,-1,-1,-1,0},
 									{-1,-1,-1,0,1},
 									{-1,-1,0,1,1},
 									{-1,0,1,1,1},
 									{0,1,1,1,1}};
 
-	private final static double mean[][] = {{1,1,1},
+	private  double mean[][] = {{1,1,1},
 				   {1,1,1},
 				   {1,1,1}};								
 
+	PixelWriter pw;
+	PixelReader pr;
+	int width;
+	int height;
+	int operation;
+	double red; 
+	double green; 
+	double blue;
+	protected double r;
+	protected double g;
+	protected double b; 
 
 	public Convolucion(PixelWriter pw1,PixelReader pr1,int width1, int height1, int operation1){
-		super(pw1,pr1,width1,height1,operation1);
+		pw = pw1;
+		pr = pr1;
+		width = width1;
+		height = height1;
+		operation = operation1;
+		r = 0;
+		g = 0;
+		b = 0;
 	}
 
 	public void aplicarFiltro(double factor, double bias, double matrix[][],int matrixHeight, int matrixWidth){
+
 		double bias1 = bias/255;
 		Color colorMatrix = null;
 		Color colorFinal = null;
-		for(int i = 0; i < super.height;i++){
-			for(int j = 0; j < super.width; j++){
-				for(int k = 0; k < matrixHeight;k++){
-					for(int l = 0; l < matrixWidth;l++){
-						colorMatrix = super.pr.getColor(k+i,l+j);
-						super.r += (colorMatrix.getRed()*matrix[k][l]);
-						super.g += (colorMatrix.getGreen()*matrix[k][l]);
-						super.b += (colorMatrix.getBlue()*matrix[k][l]);
-					}
+		try{
+			for(int i = 0; i < width; i++){
+				for(int j = 0; j < height;j++){
+					pw.setColor(i,j,Color.color(1,1,1));
 				}
-				super.r = (super.r*factor) + bias1;
-				super.g = (super.g*factor) + bias1;
-				super.b = (super.b*factor) + bias1;
+			}
+		for(int i = 0;i < width;i++){
+			if(i+matrixWidth > width)
+							break;
+			for(int j = 0; j < height; j++){
+				if(j+matrixHeight > height)
+						break;
+				for(int k = 0; k < matrixWidth;k++){
+					for(int l = 0; l < matrixHeight;l++){
+
+						colorMatrix = pr.getColor(i+k,j+l);
+						r += (colorMatrix.getRed()*matrix[k][l]);
+						g += (colorMatrix.getGreen()*matrix[k][l]);
+						b += (colorMatrix.getBlue()*matrix[k][l]);					
+					}
+					
+				}
+				r = (r*factor) + bias1;
+				g = (g*factor) + bias1;
+				b = (b*factor) + bias1;
 
 				//truncando los valores si son mayores a 1 o menores que 0.
-				if(super.r < 0)
-					super.r = 0;
-				if(super.g < 0)
-					super.g = 0;
-				if(super.b < 0)
-					super.b = 0;
-				if(super.r > 1)
-					super.r = 1;
-				if(super.g > 1)
-					super.g = 1;
-				if(super.b > 1)
-					super.b = 1;
-				colorFinal = Color.color(super.r,super.g,super.b);
-				pw.setColor(i+(matrixHeight/2),j+(matrixWidth/2),colorFinal);
-				super.r = 0;
-				super.g = 0;
-				super.b = 0;
+				if(r < 0)
+					r = 0;
+				if(g < 0)
+					g = 0;
+				if(b < 0)
+					b = 0;
+				if(r > 1)
+					r = 1;
+				if(g > 1)
+					g = 1;
+				if(b > 1)
+					b = 1;
+				colorFinal = Color.color(r,g,b);
+				pw.setColor(i+(matrixWidth/2),j+(matrixHeight/2),colorFinal);
+				r = 0;
+				g = 0;
+				b = 0;
 			}
 		}
+	}catch(Exception e){e.printStackTrace();
+	}
 	}
 
-
+	
 	public void run(){
-		switch(super.operation){
+		switch(operation){
 			case 1:
 				aplicarFiltro(1,0,original,3,3);
 				break;
@@ -136,10 +169,10 @@ public class Convolucion extends FiltrosColores{
 				aplicarFiltro(1,0,blur,3,3);
 				break;
 			case 3:
-				aplicarFiltro(1/13,0,moreBlur,5,5);
+				aplicarFiltro(0.07692,0,moreBlur,5,5);
 				break;
 			case 4:
-				aplicarFiltro(1/9,0,motionBlur,9,9);
+				aplicarFiltro(0.1111,0,motionBlur,9,9);
 				break;
 			case 5:
 				aplicarFiltro(1,0,horizontalEdges,5,5);
@@ -157,7 +190,7 @@ public class Convolucion extends FiltrosColores{
 				aplicarFiltro(1,0,sharpen,3,3);
 				break;
 			case 10:
-				aplicarFiltro(1/8,0,subtleSharpen,5,5);
+				aplicarFiltro(0.125,0,subtleSharpen,5,5);
 				break;
 			case 11:
 				aplicarFiltro(1,0,excessSharpen,3,3);
@@ -169,7 +202,7 @@ public class Convolucion extends FiltrosColores{
 				aplicarFiltro(1,128,exaggeratedEmboss,5,5);
 				break;
 			case 14:
-				aplicarFiltro(1,0,mean,3,3);
+				aplicarFiltro(0.1111,0,mean,3,3);
 				break;
 		}
 	}

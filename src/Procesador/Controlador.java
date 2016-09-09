@@ -142,7 +142,7 @@ public class Controlador implements Initializable {
             }
         }catch(Exception e){
              alerta("No hay Imagen.","Favor de abrir una imagen");
-        }catch(Throwable t){}
+        }
     }
 
     @FXML
@@ -166,7 +166,7 @@ public class Controlador implements Initializable {
             }
         }catch(Exception e){
              alerta("No hay Imagen.","Favor de abrir una imagen");
-        }catch(Throwable t){}
+        }
     }
 
     @FXML
@@ -190,7 +190,7 @@ public class Controlador implements Initializable {
             }
         }catch(Exception e){
             alerta("No hay Imagen.","Favor de abrir una imagen");
-        }catch(Throwable t){}
+        }
     }
 
     @FXML
@@ -214,7 +214,7 @@ public class Controlador implements Initializable {
             }
         }catch(Exception e){
             alerta("No hay Imagen.","Favor de abrir una imagen");
-        }catch(Throwable t){}
+        }
     }
 
     @FXML
@@ -238,7 +238,7 @@ public class Controlador implements Initializable {
             }
         }catch(Exception e){
             alerta("No hay Imagen.","Favor de abrir una imagen");
-        }catch(Throwable t){}
+        }
     }
 
      @FXML
@@ -262,7 +262,7 @@ public class Controlador implements Initializable {
             }
         }catch(Exception e){
             alerta("No hay Imagen.","Favor de abrir una imagen");
-        }catch(Throwable t){}
+        }
     }
 
      @FXML
@@ -286,7 +286,7 @@ public class Controlador implements Initializable {
             }
         }catch(Exception e){
             alerta("No hay Imagen.","Favor de abrir una imagen");
-        }catch(Throwable t){}
+        }
     }
 
     @FXML
@@ -311,7 +311,7 @@ public class Controlador implements Initializable {
             }
         }catch(Exception e){
             alerta("No hay Imagen.","Favor de abrir una imagen");
-        }catch(Throwable t){}
+        }
     }
 
     @FXML
@@ -345,7 +345,7 @@ public class Controlador implements Initializable {
             }
         }catch(Exception e){
             alerta("No hay Imagen.","Favor de abrir una imagen");
-        }catch(Throwable t){}
+        }
     }
 
     @FXML
@@ -428,7 +428,7 @@ public class Controlador implements Initializable {
             }
         }catch(Exception e){
             alerta("No hay Imagen.","Favor de abrir una imagen");
-        }catch(Throwable t){}
+        }
     }
 
 

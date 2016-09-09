@@ -37,7 +37,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#filtroRepetidoBByN" text="(B,B,B)" />
               </items>
             </Menu>
-            <Menu mnemonicParsing="false" text="moreBlur">
+            <Menu mnemonicParsing="false" text="AltoContraste">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#filtroAltoContraste" text="Normal" />
                   <MenuItem mnemonicParsing="false" onAction="#filtroAltoContrasteInverso" text="Inverso" />

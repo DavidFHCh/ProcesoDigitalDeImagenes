@@ -17,12 +17,6 @@ public class ProcesadorDeImagenes extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("procesoDigital.fxml"));
         
         Scene scene = new Scene(root);
-        
-        Thread.currentThread().setUncaughtExceptionHandler((thread, throwable) -> {
-            try{
-            start(stage);
-            }catch(Exception e){System.out.println("Fatal Error.");}
-        });
         stage.setTitle("The Eye");
         stage.setScene(scene);
         stage.setResizable(false);
