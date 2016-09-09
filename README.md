@@ -13,6 +13,4 @@ Para generar documentacion usar $ant doc
 Para ejecutar usar $java -jar ProcesadorDeImagenes.jar
 
 
-Nota: De vez en cuando la aplicación se reinicia para liberar memoria.
-
 **Se requiere jdk 1.8_40u o superior.
