@@ -1,5 +1,6 @@
 package Procesador;
 
+import java.util.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -25,6 +26,10 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.concurrent.Task;
+import javafx.embed.swing.SwingFXUtils;
+import javax.imageio.ImageIO;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -72,8 +77,22 @@ public class Controlador implements Initializable {
     
     @FXML
     private void handleButtonAction(ActionEvent event) {
-        //algo
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save Image");
+        Stage secondStage = new Stage();     
+        File file = fileChooser.showSaveDialog(secondStage);
+        if (file != null) {
+            try {
+                ImageIO.write(SwingFXUtils.fromFXImage(imagenProcesada.getImage(), null), "png", file);
+                } catch (IOException ex) {
+                    Logger.getLogger(
+                    Controlador.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        }
     }
+    
+
+
 
     @FXML
     private void abrirImagen(ActionEvent abrirImg) throws FileNotFoundException {
@@ -788,6 +807,39 @@ public class Controlador implements Initializable {
         }catch(Exception e){
              alerta("No hay Imagen.","Favor de abrir una imagen");
         }
+    }
+
+     @FXML
+    private void filtroReduccion(ActionEvent event){
+        try{
+            newWindow("Reducir.fxml","Reduccion");
+            Reducir redu = new Reducir(crearPW(),pr,width,height,alto1,ancho1);
+           synchronized(redu){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    redu.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
+            }
+        }catch(Exception e){
+            alerta("No hay Imagen.","Favor de abrir una imagen");
+        }
+    }
+
+    @FXML
+    private void filtroReduccionAux(ActionEvent event){
+        alto1 = Integer.parseInt(alto.getCharacters().toString());
+        ancho1 = Integer.parseInt(ancho.getCharacters().toString());
+        Stage stage = (Stage)buttonAccept1.getScene().getWindow();
+        stage.close();
     }
 
     private PixelWriter crearPW(){
