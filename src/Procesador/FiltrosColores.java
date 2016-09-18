@@ -29,7 +29,6 @@ public class FiltrosColores{
 		r = 0;
 		g = 0;
 		b = 0;
-
 	}
 
 	public FiltrosColores(PixelWriter pw1,PixelReader pr1,int width1, int height1, int operation1,double red, double green, double blue){
