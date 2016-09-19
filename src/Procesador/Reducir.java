@@ -35,7 +35,6 @@ public class Reducir{
 		int pixelNuevoY = 0;
 		try{
 		for(int i = 0; i < width; i++){
-			System.out.println("what");
 			if(i >= factorAncho){
 				factorAncho += fAnFinal;
 				pixelNuevoX++;
@@ -52,7 +51,6 @@ public class Reducir{
 			factorAlto = 0;
 		}
 		factorAncho = 0;
-		System.out.println("what no");
 	}
 		catch(Exception e){
 			e.printStackTrace();

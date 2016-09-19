@@ -25,6 +25,7 @@ public class FiltroRecursivoByN{
 	protected double r;
 	protected double g;
 	protected double b;
+	private ArrayList<Image> images;
 
 
 
@@ -41,17 +42,22 @@ public class FiltroRecursivoByN{
 		r = 0;
 		g = 0;
 		b = 0;
+		images = new ArrayList<>();
 	}
 
 	private void reducirImgyByN(){
 		Reducir redu = new Reducir(crearPW(imagenAux),pr,width,height,imagenPequeñaAlto,imagenPequeñaAncho);
 		redu.run();
-		prAux = crearPR(imagenAux);
-		FiltrosColores fc = new FiltrosColores(crearPW(imagenAux2),prAux,width,height,2);
+		FiltrosColores fc = new FiltrosColores(crearPW(imagenAux2),crearPR(imagenAux),width,height,2);
+		fc.run();
 		prAux = crearPR(imagenAux2);
 		imagenAux = null;
 	}
 
+	private void generaImagenes(int factor){
+		pwAux = crearPW(imagenAux);
+		Brillo brillo = new Brillo(pwAux,prAux,imagenPequeñaAncho,imagenPequeñaAlto,factor);
+	}
 
 	private PixelReader crearPR(WritableImage imagen){
         PixelReader pr = imagen.getPixelReader();
@@ -59,7 +65,28 @@ public class FiltroRecursivoByN{
     }
  	private PixelWriter crearPW(WritableImage imagen){
         imagen = new WritableImage(imagenPequeñaAncho,imagenPequeñaAlto);
-        PixelWriter pw = imagenAux.getPixelWriter();
+        PixelWriter pw = imagen.getPixelWriter();
         return pw;
+    }
+
+    private void generaImagenes(){
+    	int factor = -255;
+    	int crece = 510/numImagenes;
+    	for(int i = 0; i < numImagenes;i++){
+    		generaImagenes(factor);
+    		factor += crece;
+    		images.add(imagenAux);
+    	}
+    }
+
+    public void aplicaFiltro(){
+    	reducirImgyByN();
+    	generaImagenes();
+    	for(int i = 0; i < width;i++){
+    		for(int j = 0; j < height;j++){
+    			pr.getColor(i,j);
+    			
+    		}
+    	}
     }
 }
