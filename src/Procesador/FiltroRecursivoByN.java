@@ -25,7 +25,7 @@ public class FiltroRecursivoByN{
 	protected double r;
 	protected double g;
 	protected double b;
-	private ArrayList<Image> images;
+	private ArrayList<WritableImage> images;
 
 
 
@@ -79,13 +79,50 @@ public class FiltroRecursivoByN{
     	}
     }
 
+	private int determinaColor(int col){
+		int i;
+		int factor = 255/numImagenes;
+		for(i = 0; i < numImagenes; i++){
+			if(col <= factor){
+				return i;
+			}
+			factor += (255/numImagenes);
+		}
+		return i;
+	}
+
     public void aplicaFiltro(){
     	reducirImgyByN();
     	generaImagenes();
+    	int x = 0, y = 0;
+    	int img;
+    	double promedio = 0; 
+    	int factorAncho = width/anchoImagenes;
+    	int factorAlto = height/altoImagenes;
+    	int factorAnchoFinal = width/anchoImagenes;
+    	int factorAltoFinal = height/altoImagenes;
+    	int numPixeles = factorAnchoFinal*factorAltoFinal;
     	for(int i = 0; i < width;i++){
+    		x = i;
     		for(int j = 0; j < height;j++){
-    			pr.getColor(i,j);
-    			
+    			y = j;
+    			while(i < factorAncho){
+    				while(j < factorAlto){
+						Color color = pr.getColor(i,j);
+						promedio += color.getRed();
+						j++;
+    				}
+    				i++;
+    			}
+    			promedio = promedio/(double)numPixeles;
+    			img = determinaColor((int)(promedio*255));
+    			prAux = crearPR(images.get(img));
+    			for(int k = 0; k < imagenPequeñaAncho; k++){
+    				for(int l = 0; l < imagenPequeñaAlto; l++){
+    					Color c = prAux.getColor(k,l);
+    					pw.setColor(k+x,l+y,c);
+    				}
+    			}
     		}
     	}
     }
