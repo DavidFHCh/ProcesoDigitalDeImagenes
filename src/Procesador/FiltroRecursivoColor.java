@@ -5,7 +5,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.image.*;
 import java.util.*;
 
-public class FiltroRecursivoByN{
+public class FiltroRecursivoColor{
 
 	private PixelWriter pw;
 	private PixelReader pr;
@@ -25,11 +25,11 @@ public class FiltroRecursivoByN{
 	protected double r;
 	protected double g;
 	protected double b;
-	private ArrayList<Image> images;
+	private HashMap<Integer,Image> images;
 
 
 
-	public FiltroRecursivoByN(PixelWriter pw1,PixelReader pr1,int width1, int height1, int regionAlto,int regionAncho, int imagenPequeñaAlto,int imagenPequeñaAncho){
+	public FiltroRecursivoColor(PixelWriter pw1,PixelReader pr1,int width1, int height1, int regionAlto,int regionAncho, int imagenPequeñaAlto,int imagenPequeñaAncho){
 		pw = pw1;
 		pr = pr1;
 		width = width1;
@@ -41,29 +41,19 @@ public class FiltroRecursivoByN{
 		r = 0;
 		g = 0;
 		b = 0;
-		images = new ArrayList<>();
+		images = new HashMap<>();
 		imagenAux = new WritableImage(imagenPequeñaAncho,imagenPequeñaAlto);
 		imagenAux2 = new WritableImage(imagenPequeñaAncho,imagenPequeñaAlto);
 	}
 
-	private PixelReader reducirImgyByN(){
+	private PixelReader reducirImg(){
 		pwAux = crearPW(imagenAux);
 		Reducir redu = new Reducir(pwAux,pr,width,height,imagenPequeñaAlto,imagenPequeñaAncho);
 		redu.run();
-		
-		FiltrosColores fc = new FiltrosColores(crearPW(imagenAux2),crearPR(imagenAux),imagenPequeñaAncho,imagenPequeñaAlto,2);
-		fc.run();
-		return crearPR(imagenAux2);
 
+		return crearPR(imagenAux);
 	}
 
-	private Image generaImagenes(double factor,PixelReader pr1){
-		pwAux = crearPW(imagenAux);
-		WritableImage im = new WritableImage(imagenPequeñaAncho,imagenPequeñaAlto);
-		Brillo brillo = new Brillo(crearPW(im),pr1,imagenPequeñaAncho,imagenPequeñaAlto,factor/255.0);
-		brillo.run();
-		return im;
-	}
 
 	private PixelReader crearPR(Image imagen){
 		//System.out.println("QUe pasa?? ");
@@ -75,35 +65,21 @@ public class FiltroRecursivoByN{
         return pw;
     }
 
-    private void generaImagenes(PixelReader pr1){
-    	int factor = -255;
-    	int crece = 510/30;
-    	for(int i = 0; i < 30;i++){
-    		images.add(generaImagenes(factor,pr1));
-    		factor += crece;
-    	}
+    private void aplicarMica(WritableImage	wi,PixelReader pr1, double rprom, double gprom, double bprom){
+    	FiltrosColores fc = new FiltrosColores(crearPW(wi),pr1,(int)imagenAux.getWidth(),(int)imagenAux.getHeight(),9,rprom*255,gprom*255,bprom*255);
+		fc.run();
     }
-
-	private int determinaColor(int col){
-		int i;
-		int factor = 255/30;
-		for(i = 0; i < 30; i++){
-			if(col <= factor){
-				return i;
-			}
-			factor += (255/30);
-		}
-		return i;
-	}
 
     public void aplicaFiltro(){
     	try{
     		double propx = (double)imagenPequeñaAncho/(double)regionAncho;
     		double propy = (double)imagenPequeñaAlto/(double)regionAlto;
- 		Color color = null;
+ 			Color color = null;
     		double rprom = 0.0;
-    		generaImagenes(reducirImgyByN());
-		int num = regionAlto*regionAncho;
+    		double gprom = 0.0;
+    		double bprom = 0.0;
+    		PixelReader pr1 = reducirImg();
+			int num = regionAlto*regionAncho;
 		for(int i = 0; i < width; i++){
 			if((i+regionAncho) > width)
 				break;
@@ -114,14 +90,35 @@ public class FiltroRecursivoByN{
 					for(int l = j;l < j+regionAlto;l++){
 						color = pr.getColor(k,l);
 						rprom += color.getRed();
+						gprom += color.getGreen();
+						bprom += color.getBlue();
 					}
 				}
-				int prom = determinaColor((int)(rprom*255.0/num));
-				if(prom == 30)
-					prom--;
+				
+				rprom = rprom/num;
+				gprom = gprom/num;
+				bprom = bprom/num;
+				Color colorHM = Color.color(rprom,gprom,bprom);
+				Image im = null;
+				//imagenAux2 = new WritableImage(imagenPequeñaAncho,imagenPequeñaAlto);
+				//if(images.containsKey(colorHM.hashCode())){
+					//im = images.get(colorHM.hashCode());
+					//System.out.println("entre?");
+				//}else{
+					aplicarMica(imagenAux2,pr1,rprom,gprom,bprom);
+
+					//System.out.println(rprom + " " + gprom + " " + bprom);
+					
+					//images.put(colorHM.hashCode(),imagenAux2);
+					im = imagenAux2;
+				//}
+
 				rprom = 0;
-				Image im = images.get(prom);
-				PixelReader pr2  = crearPR(im);
+				gprom = 0;
+				bprom = 0;
+
+
+				PixelReader pr2 = crearPR(im);
 				int x = 0,y = 0;
 				for(int k = (int)(i*propx); k < (i*propx)+im.getWidth(); k++){
 					if(x >= im.getWidth()){
@@ -145,7 +142,7 @@ public class FiltroRecursivoByN{
 			}
 			i += (regionAncho-1);
 		}
-
+		System.out.println("QUe pasa?? 222222");
     	}catch(Exception e){e.printStackTrace();}
     }
 

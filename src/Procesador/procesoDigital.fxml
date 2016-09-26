@@ -21,7 +21,7 @@
                 <MenuItem mnemonicParsing="false" onAction="#filtroColoresCombinados" text="Combinacion de Colores" />
                   <Menu mnemonicParsing="false" text="Micas">
                     <items>
-                      <MenuItem mnemonicParsing="false" onAction="#filtroMicaRoja" text="emboss" />
+                      <MenuItem mnemonicParsing="false" onAction="#filtroMicaRoja" text="Rojo" />
                         <MenuItem mnemonicParsing="false" onAction="#filtroMicaAzul" text="Azul" />
                         <MenuItem mnemonicParsing="false" onAction="#filtroMicaVerde" text="Verde" />
                     </items>
@@ -66,6 +66,12 @@
                   <MenuItem mnemonicParsing="false" onAction="#filtroBrillo" text="Brillo" />
                 <MenuItem mnemonicParsing="false" onAction="#filtroMosaico" text="Mosaico" />
                   <MenuItem mnemonicParsing="false" onAction="#filtroReduccion" text="Reduccion" />
+                  <Menu mnemonicParsing="false" text="Recursivo">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#filtroRecursivoColor" text="Colores Reales" />
+                      <MenuItem mnemonicParsing="false" onAction="#filtroRecursivoByN" text="ByN" />
+                    </items>
+                  </Menu>
               </items>
             </Menu>
         </menus>

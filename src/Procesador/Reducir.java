@@ -31,18 +31,22 @@ public class Reducir{
 		int factorAncho = 0;
 		int fAFinal = height/alto;
 		int fAnFinal = width/ancho;
-		int pixelNuevoX = 0;
-		int pixelNuevoY = 0;
+		int pixelNuevoX = -1;
+		int pixelNuevoY = -1;
 		try{
 		for(int i = 0; i < width; i++){
 			if(i >= factorAncho){
 				factorAncho += fAnFinal;
 				pixelNuevoX++;
+				if(pixelNuevoX >= ancho)
+					break;
 			}
 			for(int j = 0;j < height;j++){
 				if(j >= factorAlto){
 				factorAlto += fAFinal;
 				pixelNuevoY++;
+				if(pixelNuevoY >= alto)
+					break;
 				}
 				Color color = pr.getColor(i,j);
 				pw.setColor(pixelNuevoX,pixelNuevoY,color);

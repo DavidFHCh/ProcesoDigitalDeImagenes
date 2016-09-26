@@ -59,6 +59,13 @@ public class Controlador implements Initializable {
 
     @FXML private TextField ancho;
 
+    @FXML private TextField numImagenesAncho;
+
+    @FXML private TextField numImagenesAlto;
+
+    @FXML private TextField numPixelesAncho;
+
+    @FXML private TextField numPixelesAlto;
 
 
     private WritableImage imagenNueva;
@@ -73,8 +80,12 @@ public class Controlador implements Initializable {
     private static double brillo;
     private static int alto1;
     private static int ancho1;
-    
-    
+    private static int numImagenesAncho1;
+    private static int numImagenesAlto1;
+    private static int numPixelesAncho1;
+    private static int numPixelesAlto1;    
+    private static int escalaDeImagenes1; 
+
     @FXML
     private void handleButtonAction(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -107,7 +118,7 @@ public class Controlador implements Initializable {
             javafx.application.Platform.runLater(() -> imagenProcesada.setImage(image));
             javafx.application.Platform.runLater(() -> imagenOriginal.setImage(image));
             pr = this.crearPR();
-            if(t)//esta es la t que checo en la linea 49. para solo tener un pixelwriter.
+            if(t)
                 pw = this.crearPW();
             width = (int)image.getWidth();
             height = (int)image.getHeight();
@@ -813,7 +824,7 @@ public class Controlador implements Initializable {
     private void filtroReduccion(ActionEvent event){
         try{
             newWindow("Reducir.fxml","Reduccion");
-            Reducir redu = new Reducir(crearPW(),pr,width,height,alto1,ancho1);
+            Reducir redu = new Reducir(crearPW(ancho1,alto1),pr,width,height,alto1,ancho1);
            synchronized(redu){
                 Thread hilo = new Thread(new Task() {
                 
@@ -842,8 +853,83 @@ public class Controlador implements Initializable {
         stage.close();
     }
 
+    @FXML
+    private void filtroRecursivoByN(ActionEvent event){
+        try{
+            newWindow("Recursivo.fxml","Filtro Recursivo Blanco Y Negro");
+            int x = width * (numPixelesAncho1/numImagenesAncho1);
+            int y = height * (numPixelesAlto1/numImagenesAlto1);
+            System.out.println(x+" "+y);
+            FiltroRecursivoByN mos = new FiltroRecursivoByN(crearPW(x,y),pr,width,height,numImagenesAlto1,numImagenesAncho1,numPixelesAlto1,numPixelesAncho1);
+           synchronized(mos){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    mos.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            //alerta("No hay Imagen.","Favor de abrir una imagen");
+        }
+    }
+
+    @FXML
+    private void filtroRecursivoAux(ActionEvent event){
+        numImagenesAlto1 = Integer.parseInt(numImagenesAlto.getCharacters().toString());
+        numImagenesAncho1 = Integer.parseInt(numImagenesAncho.getCharacters().toString());
+        numPixelesAlto1 = Integer.parseInt(numPixelesAlto.getCharacters().toString());
+        numPixelesAncho1 = Integer.parseInt(numPixelesAncho.getCharacters().toString());
+        Stage stage = (Stage)buttonAccept1.getScene().getWindow();
+        stage.close();
+    }
+
+    @FXML
+    private void filtroRecursivoColor(ActionEvent event){
+        try{
+            newWindow("Recursivo.fxml","Filtro Recursivo Colores Reales");
+            int x = width * (numPixelesAncho1/numImagenesAncho1);
+            int y = height * (numPixelesAlto1/numImagenesAlto1);
+            System.out.println(x+" "+y);
+            FiltroRecursivoColor mos = new FiltroRecursivoColor(crearPW(x,y),pr,width,height,numImagenesAlto1,numImagenesAncho1,numPixelesAlto1,numPixelesAncho1);
+           synchronized(mos){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    mos.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            //alerta("No hay Imagen.","Favor de abrir una imagen");
+        }
+    }
+
+
     private PixelWriter crearPW(){
         imagenNueva = new WritableImage((int)image.getWidth(),(int)image.getHeight());
+        PixelWriter pw = imagenNueva.getPixelWriter();
+        return pw;
+    }
+
+    private PixelWriter crearPW(int x, int y){
+        imagenNueva = new WritableImage(x,y);
         PixelWriter pw = imagenNueva.getPixelWriter();
         return pw;
     }
