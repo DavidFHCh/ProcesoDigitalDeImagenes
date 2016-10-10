@@ -100,18 +100,10 @@ public class FiltroRecursivoColor{
 				bprom = bprom/num;
 				Color colorHM = Color.color(rprom,gprom,bprom);
 				Image im = null;
-				//imagenAux2 = new WritableImage(imagenPequeñaAncho,imagenPequeñaAlto);
-				//if(images.containsKey(colorHM.hashCode())){
-					//im = images.get(colorHM.hashCode());
-					//System.out.println("entre?");
-				//}else{
 					aplicarMica(imagenAux2,pr1,rprom,gprom,bprom);
 
-					//System.out.println(rprom + " " + gprom + " " + bprom);
-					
-					//images.put(colorHM.hashCode(),imagenAux2);
 					im = imagenAux2;
-				//}
+			
 
 				rprom = 0;
 				gprom = 0;
@@ -142,7 +134,7 @@ public class FiltroRecursivoColor{
 			}
 			i += (regionAncho-1);
 		}
-		System.out.println("QUe pasa?? 222222");
+
     	}catch(Exception e){e.printStackTrace();}
     }
 

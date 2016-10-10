@@ -30,6 +30,9 @@ import javafx.embed.swing.SwingFXUtils;
 import javax.imageio.ImageIO;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.paint.*;
+import javafx.scene.canvas.*;
+import javafx.scene.control.CheckBox;
 
 /**
  *
@@ -67,6 +70,12 @@ public class Controlador implements Initializable {
 
     @FXML private TextField numPixelesAlto;
 
+    @FXML private TextField nombreArchivoSopa;
+
+    @FXML private CheckBox grisSopa;
+
+    @FXML private TextField frase;
+
 
     private WritableImage imagenNueva;
     private PixelReader pr;
@@ -85,6 +94,9 @@ public class Controlador implements Initializable {
     private static int numPixelesAncho1;
     private static int numPixelesAlto1;    
     private static int escalaDeImagenes1; 
+    private static String nombreArchivoSopaS;
+    private static boolean grisSopaB;
+    private static String fraseS;
 
     @FXML
     private void handleButtonAction(ActionEvent event) {
@@ -921,6 +933,168 @@ public class Controlador implements Initializable {
         }
     }
 
+    @FXML
+    private void filtroSopaUnaLetra(ActionEvent event){
+        try{
+            newWindow("sopaDeLetrasUnaLetra.fxml","Sopa de Letras.");
+            FiltroSopaDeLetras fc = new FiltroSopaDeLetras(pr,width,height,4,4);
+           synchronized(fc){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    String result = fc.run(grisSopaB);
+
+                    PrintWriter writer = new PrintWriter(nombreArchivoSopaS +".html", "UTF-8");
+                    writer.println(result);
+                    writer.close();
+                    
+                    return null;
+                }
+                });
+                hilo.start();
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            alerta("No hay Imagen.","Favor de abrir una imagen");
+        }
+    }
+
+    @FXML
+    private void filtroSopaUnaLetraAux(ActionEvent event){
+        nombreArchivoSopaS = nombreArchivoSopa.getCharacters().toString();
+        System.out.println(nombreArchivoSopaS);
+        grisSopaB = grisSopa.isSelected();
+        Stage stage = (Stage)buttonAccept1.getScene().getWindow();
+        stage.close();
+    }
+
+    @FXML
+    private void filtroSopaVariasLetra(ActionEvent event){
+        try{
+            newWindow("sopaDeLetrasVariasLetra.fxml","Sopa de Letras.");
+            FiltroSopaDeLetrasVariasLetras fc = new FiltroSopaDeLetrasVariasLetras(pr,width,height,4,4);
+           synchronized(fc){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    String result = fc.run();
+
+                    PrintWriter writer = new PrintWriter(nombreArchivoSopaS +".html", "UTF-8");
+                    writer.println(result);
+                    writer.close();
+                    
+                    return null;
+                }
+                });
+                hilo.start();
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            alerta("No hay Imagen.","Favor de abrir una imagen");
+        }
+    }
+
+    @FXML
+    private void filtroSopaVariasLetraAux(ActionEvent event){
+        nombreArchivoSopaS = nombreArchivoSopa.getCharacters().toString();
+        System.out.println(nombreArchivoSopaS);
+        Stage stage = (Stage)buttonAccept1.getScene().getWindow();
+        stage.close();
+    }
+
+    @FXML
+    private void filtroSopaFrase(ActionEvent event){
+        try{
+            newWindow("sopaDeLetrasFrase.fxml","Sopa de Letras.");
+            FiltroSopaDeLetrasFrase fc = new FiltroSopaDeLetrasFrase(pr,width,height,4,4,fraseS);
+           synchronized(fc){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    String result = fc.run(grisSopaB);
+
+                    PrintWriter writer = new PrintWriter(nombreArchivoSopaS +".html", "UTF-8");
+                    writer.println(result);
+                    writer.close();
+                    
+                    return null;
+                }
+                });
+                hilo.start();
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            alerta("No hay Imagen.","Favor de abrir una imagen");
+        }
+    }
+
+    @FXML
+    private void filtroSopaFraseAux(ActionEvent event){
+        nombreArchivoSopaS = nombreArchivoSopa.getCharacters().toString();
+        fraseS = frase.getCharacters().toString();
+        System.out.println(nombreArchivoSopaS);
+        grisSopaB = grisSopa.isSelected();
+        Stage stage = (Stage)buttonAccept1.getScene().getWindow();
+        stage.close();
+    }
+
+    @FXML
+    private void filtroSopaDominoBlancos(ActionEvent event){
+        try{
+            newWindow("sopaDeLetrasVariasLetra.fxml","Sopa de Letras Dominos Blancos.");
+            FiltroSopaDeLetrasDominos fc = new FiltroSopaDeLetrasDominos(pr,width,height,4,4,true);
+           synchronized(fc){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    String result = fc.run();
+
+                    PrintWriter writer = new PrintWriter(nombreArchivoSopaS +".html", "UTF-8");
+                    writer.println(result);
+                    writer.close();
+                    
+                    return null;
+                }
+                });
+                hilo.start();
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            alerta("No hay Imagen.","Favor de abrir una imagen");
+        }
+    }
+
+    @FXML
+    private void filtroSopaDominoNegros(ActionEvent event){
+        try{
+            newWindow("sopaDeLetrasVariasLetra.fxml","Sopa de Letras Dominos Negros.");
+            FiltroSopaDeLetrasDominos fc = new FiltroSopaDeLetrasDominos(pr,width,height,4,4,false);
+           synchronized(fc){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    String result = fc.run();
+
+                    PrintWriter writer = new PrintWriter(nombreArchivoSopaS +".html", "UTF-8");
+                    writer.println(result);
+                    writer.close();
+                    
+                    return null;
+                }
+                });
+                hilo.start();
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            alerta("No hay Imagen.","Favor de abrir una imagen");
+        }
+    }
+
 
     private PixelWriter crearPW(){
         imagenNueva = new WritableImage((int)image.getWidth(),(int)image.getHeight());
@@ -946,6 +1120,14 @@ public class Controlador implements Initializable {
     public static void alerta(String msg,String msg1){
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle("Error");
+        alert.setHeaderText(msg);
+        alert.setContentText(msg1);
+        alert.showAndWait();
+    }
+
+    public static void alertaInf(String msg,String msg1){
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Info");
         alert.setHeaderText(msg);
         alert.setContentText(msg1);
         alert.showAndWait();
