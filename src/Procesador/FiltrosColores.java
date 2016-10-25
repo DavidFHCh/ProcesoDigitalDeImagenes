@@ -88,6 +88,36 @@ public class FiltrosColores{
 	}
 
 	/**
+	* Filtro de blanco y negro, calcula el gris multiplicando por numeros magicos,obtenidos
+	* por gente que hizo calculos especiales.
+	*/
+	private void sepia(){
+		for(int i = 0; i < this.width; i++){
+			for(int j = 0; j < this.height; j++){
+				double sum = 0;
+				Color c = pr.getColor(i,j);
+				Color c1 = null;
+				this.r = c.getRed()*0.3;
+				this.g = c.getGreen()*0.59;
+				this.b = c.getBlue()*0.11;
+				double red,green,blue;
+				red = (0.393*r)+(0.796*g)+(0.189*b);
+				green = (0.349*r)+(0.686*g)+(0.168*b);
+				blue = (0.272*r)+(0.534*g)+(0.131*b);
+				if(red > 1)
+					red = 1;
+				if(green > 1)
+					green = 1;
+				if(blue > 1)
+					blue = 1;
+				c1 = Color.color(red,green,blue);
+				pw.setColor(i,j,c1);
+			}
+
+		}			
+	}
+
+	/**
 	* Estos son tres filtros si el 'color' es 1 el gris es (R,R,R), si es 2 es (G,G,G), si es 3 entonces (B,B,B).
 	* @param color un entero entre 1 y 3.
 	*/
@@ -206,6 +236,9 @@ public class FiltrosColores{
 					break;
 				case 9: 
 					this.micasColoresVariable(red,green,blue);
+					break;
+				case 10:
+					this.sepia();
 					break;
 				default:
 					System.out.println("Error");

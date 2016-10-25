@@ -212,6 +212,29 @@ public class Controlador implements Initializable {
     }
 
     @FXML
+    private void filtroSepia(ActionEvent event){
+        try{
+            FiltrosColores fc = new FiltrosColores(crearPW(),pr,width,height,10);
+            synchronized(fc){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    fc.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
+            }
+        }catch(Exception e){
+             alerta("No hay Imagen.","Favor de abrir una imagen");
+        }
+    }
+    @FXML
     private void filtroRepetidoGByN(ActionEvent event){
         try{
             FiltrosColores fc = new FiltrosColores(crearPW(),pr,width,height,4);

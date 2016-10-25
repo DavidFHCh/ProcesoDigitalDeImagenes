@@ -26,6 +26,7 @@
                         <MenuItem mnemonicParsing="false" onAction="#filtroMicaVerde" text="Verde" />
                     </items>
                   </Menu>
+                  <MenuItem mnemonicParsing="false" onAction="#filtroSepia" text="Sepia" />
               </items>
             </Menu>
             <Menu mnemonicParsing="false" text="ByN">
