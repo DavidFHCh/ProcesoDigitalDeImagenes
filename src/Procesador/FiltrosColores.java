@@ -101,7 +101,7 @@ public class FiltrosColores{
 				this.g = c.getGreen()*0.59;
 				this.b = c.getBlue()*0.11;
 				double red,green,blue;
-				red = (0.393*r)+(0.796*g)+(0.189*b);
+				red = (0.393*r)+(0.769*g)+(0.189*b);
 				green = (0.349*r)+(0.686*g)+(0.168*b);
 				blue = (0.272*r)+(0.534*g)+(0.131*b);
 				if(red > 1)
@@ -206,6 +206,33 @@ public class FiltrosColores{
 
 		}	
 	}
+
+	private void experimental(){
+		for(int i = 0; i < this.width; i++){
+			for(int j = 0; j < this.height; j++){
+				double sum = 0;
+				Color c = pr.getColor(i,j);
+				Color c1 = null;
+				this.r = c.getRed();
+				this.g = c.getGreen();
+				this.b = c.getBlue();
+				sum = Double.min(r,Double.min(g,b));
+				if(sum == r){
+					c1 = Color.color(r,0,0);
+				}
+				if(sum == g){
+					c1 = Color.color(0,g,0);
+				}
+				if(sum == b){
+					c1 = Color.color(0,0,b);
+				}
+				pw.setColor(i,j,c1);
+			}
+
+		}			
+	}
+
+
 	
 	public void run(){
 		try{
@@ -239,6 +266,9 @@ public class FiltrosColores{
 					break;
 				case 10:
 					this.sepia();
+					break;
+				case 11:
+					this.experimental();
 					break;
 				default:
 					System.out.println("Error");

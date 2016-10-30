@@ -234,6 +234,31 @@ public class Controlador implements Initializable {
              alerta("No hay Imagen.","Favor de abrir una imagen");
         }
     }
+
+    @FXML
+    private void filtroExperimental(ActionEvent event){
+        try{
+            FiltrosColores fc = new FiltrosColores(crearPW(),pr,width,height,11);
+            synchronized(fc){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    fc.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
+            }
+        }catch(Exception e){
+             alerta("No hay Imagen.","Favor de abrir una imagen");
+        }
+    }
+
     @FXML
     private void filtroRepetidoGByN(ActionEvent event){
         try{
@@ -1118,6 +1143,81 @@ public class Controlador implements Initializable {
         }
     }
 
+
+    @FXML
+    private void filtroOleo(ActionEvent event){
+        try{
+            Oleo oleo = new Oleo(crearPW(),pr,width,height,1);
+            synchronized(oleo){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    oleo.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
+            }
+            
+        }catch(Exception e){
+             alerta("No hay Imagen.","Favor de abrir una imagen");
+        }
+    }
+
+ @FXML
+    private void filtroMaximo(ActionEvent event){
+        try{
+            Oleo oleo = new Oleo(crearPW(),pr,width,height,2);
+            synchronized(oleo){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    oleo.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
+            }
+            
+        }catch(Exception e){
+             alerta("No hay Imagen.","Favor de abrir una imagen");
+        }
+    }
+
+     @FXML
+    private void filtroMinimo(ActionEvent event){
+        try{
+            Oleo oleo = new Oleo(crearPW(),pr,width,height,3);
+            synchronized(oleo){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    oleo.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
+            }
+            
+        }catch(Exception e){
+             alerta("No hay Imagen.","Favor de abrir una imagen");
+        }
+    }
 
     private PixelWriter crearPW(){
         imagenNueva = new WritableImage((int)image.getWidth(),(int)image.getHeight());

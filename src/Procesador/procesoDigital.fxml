@@ -62,6 +62,13 @@
                   <MenuItem mnemonicParsing="false" onAction="#filtroConvolucionMean" text="mean" />
               </items>
             </Menu>
+            <Menu mnemonicParsing="false" text="Oleo">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#filtroOleo" text="Oleo" />
+                  <MenuItem mnemonicParsing="false" onAction="#filtroMaximo" text="Maximo" />
+                  <MenuItem mnemonicParsing="false" onAction="#filtroMinimo" text="Minimo" />
+              </items>
+            </Menu>
             <Menu mnemonicParsing="false" text="Varios">
               <items>
                   <MenuItem mnemonicParsing="false" onAction="#filtroBrillo" text="Brillo" />
@@ -80,6 +87,11 @@
                     <items>
                         <MenuItem mnemonicParsing="false" onAction="#filtroRecursivoColor" text="Colores Reales" />
                       <MenuItem mnemonicParsing="false" onAction="#filtroRecursivoByN" text="ByN" />
+                    </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Experimental">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#filtroExperimental" text="1" />
                     </items>
                   </Menu>
               </items>
