@@ -7,14 +7,15 @@ import javafx.scene.image.*;
 public class FiltrosColores{
 
 
-	PixelWriter pw;
-	PixelReader pr;
-	int width;
-	int height;
-	int operation;
-	double red; 
-	double green; 
-	double blue;
+	protected PixelWriter pw;
+	protected PixelReader pr;
+	protected int width;
+	protected int height;
+	protected int operation;
+	protected double red; 
+	protected double green; 
+	protected double blue;
+	protected double intensidadLuzNegra;
 	protected double r;
 	protected double g;
 	protected double b; 
@@ -29,6 +30,18 @@ public class FiltrosColores{
 		r = 0;
 		g = 0;
 		b = 0;
+	}
+
+	public FiltrosColores(PixelWriter pw1,PixelReader pr1,int width1, int height1,double intensidadLuzNegra, int operation1){
+		pw = pw1;
+		pr = pr1;
+		width = width1;
+		height = height1;
+		operation = operation1;
+		r = 0;
+		g = 0;
+		b = 0;
+		this.intensidadLuzNegra = intensidadLuzNegra;// este va entre 1 y 7!
 	}
 
 	public FiltrosColores(PixelWriter pw1,PixelReader pr1,int width1, int height1, int operation1,double red, double green, double blue){
@@ -207,6 +220,32 @@ public class FiltrosColores{
 		}	
 	}
 
+	private void luzNegra(){
+		for(int i = 0; i < this.width; i++){
+			for(int j = 0; j < this.height; j++){
+				double sum = 0;
+				Color c = pr.getColor(i,j);
+				Color c1 = null;
+				this.r = c.getRed();
+				this.g = c.getGreen();
+				this.b = c.getBlue();
+				sum = ((222 * r) + (707 * g) + (71 * b)) / 1000;
+				r = Math.abs(r-sum)*intensidadLuzNegra;
+				g = Math.abs(g-sum)*intensidadLuzNegra;
+				b = Math.abs(b-sum)*intensidadLuzNegra; 
+				if(r > 1) 
+					r = 1;
+				if(g > 1) 
+					g = 1;
+				if(b > 1) 
+					b = 1;
+				c1 = Color.color(r,g,b);
+				pw.setColor(i,j,c1);
+			}
+
+		}	
+	}
+
 	private void experimental(){
 		for(int i = 0; i < this.width; i++){
 			for(int j = 0; j < this.height; j++){
@@ -269,6 +308,9 @@ public class FiltrosColores{
 					break;
 				case 11:
 					this.experimental();
+					break;
+				case 12:
+					this.luzNegra();
 					break;
 				default:
 					System.out.println("Error");

@@ -1219,6 +1219,30 @@ public class Controlador implements Initializable {
         }
     }
 
+    @FXML
+    private void filtroLuzNegra(ActionEvent event){
+        try{
+            FiltrosColores fc = new FiltrosColores(crearPW(),pr,width,height,2,12);
+            synchronized(fc){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    fc.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
+            }
+        }catch(Exception e){
+            alerta("No hay Imagen.","Favor de abrir una imagen");
+        }
+    }
+
     private PixelWriter crearPW(){
         imagenNueva = new WritableImage((int)image.getWidth(),(int)image.getHeight());
         PixelWriter pw = imagenNueva.getPixelWriter();
