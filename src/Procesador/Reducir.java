@@ -27,38 +27,15 @@ public class Reducir{
 	}
 
 	public void aplicarReduccion(){
-		int factorAlto = 0;
-		int factorAncho = 0;
-		int fAFinal = height/alto;
-		int fAnFinal = width/ancho;
-		int pixelNuevoX = -1;
-		int pixelNuevoY = -1;
-		try{
-		for(int i = 0; i < width; i++){
-			if(i >= factorAncho){
-				factorAncho += fAnFinal;
-				pixelNuevoX++;
-				if(pixelNuevoX >= ancho)
-					break;
+		int al = height/alto;
+		int an = width/ancho;
+		Color c = null;
+		for(int i = 0; i < ancho;i++){
+			for(int j = 0; j < alto; j++){
+				c = pr.getColor((((i+1)*an)-1),(((j+1)*al)-1));
+				pw.setColor(i,j,c);
 			}
-			for(int j = 0;j < height;j++){
-				if(j >= factorAlto){
-				factorAlto += fAFinal;
-				pixelNuevoY++;
-				if(pixelNuevoY >= alto)
-					break;
-				}
-				Color color = pr.getColor(i,j);
-				pw.setColor(pixelNuevoX,pixelNuevoY,color);
-			}
-			pixelNuevoY=0;
-			factorAlto = 0;
-		}
-		factorAncho = 0;
-	}
-		catch(Exception e){
-			e.printStackTrace();
-		}	
+		} 
 	}
 
 	public void run(){

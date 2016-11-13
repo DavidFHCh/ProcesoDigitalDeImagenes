@@ -34,12 +34,7 @@ public class Icono{
 		Color c = null;
 		for(int i = 0; i < ancho;i++){
 			for(int j = 0; j < alto; j++){
-				for(int k = (i*an); k < ((i+1)*an);k++){
-					for(int l = (j*al); l < ((j+1)*al); l++){
-						if(k == (((i+1)*an)-1) && l == (((j+1)*al)-1))
-							c = pr.getColor(k,l);
-					}
-				}
+				c = pr.getColor((((i+1)*an)-1),(((j+1)*al)-1));
 				pw.setColor(i,j,c);
 			}
 		} 
