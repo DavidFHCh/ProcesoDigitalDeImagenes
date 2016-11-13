@@ -44,6 +44,10 @@ public class Controlador implements Initializable {
 
     @FXML private ImageView imagenProcesada;
 
+    @FXML private ImageView imagenPro1;
+
+    @FXML private ImageView imagenPro2;
+
     @FXML private Slider sliderRed;
 
     @FXML private Slider sliderGreen;
@@ -74,15 +78,30 @@ public class Controlador implements Initializable {
 
     @FXML private CheckBox grisSopa;
 
+    @FXML private CheckBox mosa;
+
+    @FXML private CheckBox tamaño1;
+
+    @FXML private CheckBox tamaño2;
+
+    @FXML private CheckBox tamaño3;
+
+    @FXML private CheckBox tamaño4;
+
     @FXML private TextField frase;
 
 
     private WritableImage imagenNueva;
-    private PixelReader pr;
+    private static PixelReader pr;
+    private static PixelReader pr2;
     private PixelWriter pw;
-    private int width;
-    private int height;
+    private static int width;
+    private static int height;
+    private static int width2;
+    private static int height2;
     private Image image = null;
+    private static Image image1 = null;
+    private static Image image2 = null;
     private static double rojo;
     private static double azul;
     private static double verde;
@@ -97,6 +116,8 @@ public class Controlador implements Initializable {
     private static String nombreArchivoSopaS;
     private static boolean grisSopaB;
     private static String fraseS;
+    private static int tamIco;
+    private static boolean mosai;
 
     @FXML
     private void handleButtonAction(ActionEvent event) {
@@ -134,6 +155,38 @@ public class Controlador implements Initializable {
                 pw = this.crearPW();
             width = (int)image.getWidth();
             height = (int)image.getHeight();
+        }
+    }
+
+    @FXML
+    private void abrirImagen2(ActionEvent abrirImg) throws FileNotFoundException {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Seleccionar Imagen");
+        fileChooser.getExtensionFilters().addAll(
+                new ExtensionFilter("Image Files", "*.png", "*.jpg"));
+        File selectedFile = fileChooser.showOpenDialog(null);
+        if (selectedFile != null) {
+            image2 = new Image(new FileInputStream(selectedFile));
+            javafx.application.Platform.runLater(() -> imagenPro2.setImage(image2));
+            pr2 = image2.getPixelReader();
+            width2 = (int)image2.getWidth();
+            height2 = (int)image2.getHeight();
+        }
+    }
+
+    @FXML
+    private void abrirImagen1(ActionEvent abrirImg) throws FileNotFoundException {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Seleccionar Imagen");
+        fileChooser.getExtensionFilters().addAll(
+                new ExtensionFilter("Image Files", "*.png", "*.jpg"));
+        File selectedFile = fileChooser.showOpenDialog(null);
+        if (selectedFile != null) {
+            image1 = new Image(new FileInputStream(selectedFile));
+            javafx.application.Platform.runLater(() -> imagenPro1.setImage(image1));
+            pr = image1.getPixelReader();
+            width = (int)image1.getWidth();
+            height = (int)image1.getHeight();
         }
     }
 
@@ -1219,10 +1272,76 @@ public class Controlador implements Initializable {
         }
     }
 
-    @FXML
+
+@FXML
     private void filtroLuzNegra(ActionEvent event){
         try{
-            FiltrosColores fc = new FiltrosColores(crearPW(),pr,width,height,2,12);
+            newWindow("luzNegra.fxml","Luz Negra");
+            FiltrosColores fc = new FiltrosColores(crearPW(),pr,width,height,rojo,12);
+           synchronized(fc){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    fc.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
+            }
+        }catch(Exception e){
+            alerta("No hay Imagen.","Favor de abrir una imagen");
+        }
+    }
+
+    @FXML
+    private void filtroLuzNegraAux(ActionEvent event){
+        rojo = sliderRed.getValue();
+        Stage stage = (Stage)buttonAccept1.getScene().getWindow();
+        stage.close();
+    }
+
+    @FXML
+    private void filBlending(ActionEvent event){
+        try{
+            newWindow("blending.fxml","Blending");
+            FiltrosColores fc = new FiltrosColores(crearPW(Math.min(width,width2),Math.min(height,height2)),pr,pr2,width,height,width2,height2,rojo,13);
+           synchronized(fc){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    fc.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
+            }
+        }catch(Exception e){
+            alerta("No hay Imagen.","Favor de abrir una imagen");
+        }
+    }
+
+    @FXML
+    private void filtroBlending(ActionEvent event){
+        rojo = sliderRed.getValue();
+        Stage stage = (Stage)buttonAccept1.getScene().getWindow();
+        stage.close();
+    }
+
+     @FXML
+    private void filtroIcono(ActionEvent event){
+        try{
+            newWindow("icono.fxml","Icono");
+            Icono fc = new Icono(crearPW(tamIco,tamIco),pr,width,height,tamIco,tamIco,mosai);
             synchronized(fc){
                 Thread hilo = new Thread(new Task() {
                 
@@ -1241,6 +1360,34 @@ public class Controlador implements Initializable {
         }catch(Exception e){
             alerta("No hay Imagen.","Favor de abrir una imagen");
         }
+    }
+
+    @FXML
+    private void filtroIconoAux(ActionEvent event){
+        if(tamaño1.isSelected()){
+            tamIco = 16;
+        }else{
+            if(tamaño2.isSelected()){
+                tamIco = 32;
+            }else{
+                if(tamaño3.isSelected()){
+                    tamIco = 64;
+                }else{
+                    if(tamaño4.isSelected()){
+                        tamIco = 128;
+                    }else{
+                        this.alerta("No seleccionado","No se seleccionaste tamaño alguno.");
+                    }
+                }
+            }
+        }
+        if(mosa.isSelected()){
+            mosai = true;
+        }else{
+            mosai = false;
+        }
+        Stage stage = (Stage)buttonAccept1.getScene().getWindow();
+        stage.close();
     }
 
     private PixelWriter crearPW(){

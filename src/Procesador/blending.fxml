@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="877.0" prefWidth="993.0" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Procesador.Controlador">
+   <children>
+      <Slider fx:id="sliderRed" blockIncrement="0.0" layoutX="365.0" layoutY="790.0" majorTickUnit="1" max="1.0" minorTickCount="0" prefHeight="38.0" prefWidth="263.0" showTickLabels="true" showTickMarks="true" />
+      <Button fx:id="buttonAccept1" layoutX="462.0" layoutY="828.0" mnemonicParsing="false" onAction="#filtroBlending" text="Aceptar" />
+      <Label layoutX="450.0" layoutY="774.0" text="Transparencia" />
+      <SplitPane dividerPositions="0.5" layoutY="-1.0" prefHeight="763.0" prefWidth="993.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <Button layoutX="189.0" layoutY="721.0" mnemonicParsing="false" onAction="#abrirImagen1" text="Abrir Imagen 1" />
+                  <ImageView fx:id="imagenPro1" fitHeight="672.0" fitWidth="466.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <Button layoutX="188.0" layoutY="721.0" mnemonicParsing="false" onAction="#abrirImagen2" text="Abrir Imagen 2" />
+                  <ImageView fx:id="imagenPro2" fitHeight="672.0" fitWidth="466.0" layoutX="13.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

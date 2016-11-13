@@ -11,6 +11,8 @@ public class FiltrosColores{
 	protected PixelReader pr;
 	protected int width;
 	protected int height;
+	protected int width2;
+	protected int height2;
 	protected int operation;
 	protected double red; 
 	protected double green; 
@@ -18,7 +20,9 @@ public class FiltrosColores{
 	protected double intensidadLuzNegra;
 	protected double r;
 	protected double g;
-	protected double b; 
+	protected double b;
+	protected PixelReader pr2;
+	protected double alpha; 
 
 
 	public FiltrosColores(PixelWriter pw1,PixelReader pr1,int width1, int height1, int operation1){
@@ -56,6 +60,21 @@ public class FiltrosColores{
 		this.red = red;
 		this.green = green;
 		this.blue = blue;
+	}
+
+	public FiltrosColores(PixelWriter pw1,PixelReader pr1,PixelReader pr2,int width1, int height1,int width2, int height2, double alpha,int operation1){
+	pw = pw1;
+		pr = pr1;
+		width = width1;
+		height = height1;
+		this.width2 = width2;
+		this.height2 = height2;
+		operation = operation1;
+		r = 0;
+		g = 0;
+		b = 0;
+		this.pr2 = pr2;
+		this.alpha = alpha;
 	}
 
 
@@ -271,6 +290,22 @@ public class FiltrosColores{
 		}			
 	}
 
+	private void blending(){
+		int ancho = Math.min(width,width2);
+		int alto = Math.min(height,height2);
+		for(int i = 0; i < ancho; i++){
+			for(int j = 0; j < alto; j++){
+				Color c1 = pr.getColor(i,j);
+				Color c2 = pr2.getColor(i,j);
+				r = (c1.getRed() * alpha) + (c2.getRed() * (1.0 - alpha));
+				g = (c1.getGreen() * alpha) + (c2.getGreen() * (1.0 - alpha));
+				b = (c1.getBlue() * alpha) + (c2.getBlue() * (1.0 - alpha));
+
+				pw.setColor(i,j,Color.color(r,g,b));
+			}
+		}
+	}
+
 
 	
 	public void run(){
@@ -311,6 +346,9 @@ public class FiltrosColores{
 					break;
 				case 12:
 					this.luzNegra();
+					break;
+				case 13:
+					this.blending();
 					break;
 				default:
 					System.out.println("Error");
