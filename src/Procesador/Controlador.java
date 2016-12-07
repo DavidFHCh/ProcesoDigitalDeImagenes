@@ -33,6 +33,9 @@ import java.util.logging.Logger;
 import javafx.scene.paint.*;
 import javafx.scene.canvas.*;
 import javafx.scene.control.CheckBox;
+import javax.swing.JFileChooser;
+import org.apache.commons.io.*;
+import org.apache.commons.io.filefilter.*;
 
 /**
  *
@@ -118,6 +121,7 @@ public class Controlador implements Initializable {
     private static String fraseS;
     private static int tamIco;
     private static boolean mosai;
+    private static File dir;
 
     @FXML
     private void handleButtonAction(ActionEvent event) {
@@ -144,7 +148,7 @@ public class Controlador implements Initializable {
         boolean t = (image == null);// solo creo un pixelwriter, si no, se genera un error de escritura.
         fileChooser.setTitle("Seleccionar Imagen");
         fileChooser.getExtensionFilters().addAll(
-                new ExtensionFilter("Image Files", "*.png", "*.jpg"));
+                new ExtensionFilter("Image Files", "*.png", "*.jpg","*.jpeg","*.JPG","*.PNG","*.JPEG"));
         File selectedFile = fileChooser.showOpenDialog(null);
         if (selectedFile != null) {
             image = new Image(new FileInputStream(selectedFile));
@@ -1413,6 +1417,43 @@ public class Controlador implements Initializable {
         }catch(Exception e){
              alerta("No hay Imagen.","Favor de abrir una imagen");
         }
+    }
+
+     @FXML
+    private void filtroFotoMosaico(ActionEvent event){
+        try{
+            newWindow("FotoMosaico.fxml","Filtro Foto Mosaico.");
+            int x = width * (numPixelesAncho1/numImagenesAncho1);
+            int y = height * (numPixelesAlto1/numImagenesAlto1);
+            
+            FotoMosaico mos = new FotoMosaico(crearPW(x,y),pr,width,height,numImagenesAlto1,numImagenesAncho1,numPixelesAlto1,numPixelesAncho1,dir);
+           synchronized(mos){
+                Thread hilo = new Thread(new Task() {
+                
+                @Override
+                protected Object call() throws Exception {
+                    mos.run();
+                    
+                    synchronized(imagenProcesada){
+                        javafx.application.Platform.runLater(() -> imagenProcesada.setImage(imagenNueva));
+                    }
+                    return null;
+                }
+                });
+                hilo.start();
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            //alerta("No hay Imagen.","Favor de abrir una imagen");
+        }
+    }
+
+    @FXML
+    private void abrirDirectorio(){
+         JFileChooser fileChooser = new JFileChooser();
+         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+         fileChooser.showOpenDialog(null);
+         dir = fileChooser.getSelectedFile();
     }
 
     private PixelWriter crearPW(){

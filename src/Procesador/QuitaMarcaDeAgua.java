@@ -40,6 +40,7 @@ public class QuitaMarcaDeAgua{
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void quita(){
 		Color c = null;
 		LinkedList otrosColores = new LinkedList<OtroColor>();
@@ -50,6 +51,7 @@ public class QuitaMarcaDeAgua{
 				g = c.getGreen();
 				b = c.getBlue();
 				if(r != g || r != b || g != b){
+
 					otrosColores.add(new OtroColor(i,j));
 					pw.setColor(i,j,Color.color(0,0,0));
 				}

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="199.0" prefWidth="392.0" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Procesador.Controlador">
+   <children>
+      <Slider fx:id="sliderRed" blockIncrement="0.0" layoutX="70.0" layoutY="51.0" majorTickUnit="1.0" max="7.0" min="1.0" minorTickCount="1" prefHeight="38.0" prefWidth="263.0" showTickLabels="true" showTickMarks="true" />
+      <Button fx:id="buttonAccept1" layoutX="167.0" layoutY="129.0" mnemonicParsing="false" onAction="#filtroLuzNegraAux" text="Aceptar" />
+      <Label layoutX="117.0" layoutY="35.0" text="Intensidad de Luz Negra" />
+   </children>
+</AnchorPane>
