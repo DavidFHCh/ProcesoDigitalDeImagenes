@@ -131,7 +131,14 @@ public class FotoMosaico{
 		Image im = null;
 		try{im = new Image(new FileInputStream(new File(minima.getNombre())));}
 		catch(Exception e){}
-		return im;
+
+            WritableImage wimg = new WritableImage(imagenPequeñaAncho,imagenPequeñaAlto);
+        	    PixelReader prAu = im.getPixelReader();
+        	    PixelWriter pwAu =  wimg.getPixelWriter();
+            Reducir redu = new Reducir(pwAux,prAux,(int)im.getWidth(),(int)im.getHeight(),imagenPequeñaAlto,imagenPequeñaAncho);
+				redu.run();
+
+		return wimg;
 	}
 
 	private double dist(double x0,double y0, double z0,double x1,double y1, double z1){
@@ -157,6 +164,7 @@ public class FotoMosaico{
 				img = getCercana(c,imgs);
 				if(img == null)
 					continue;
+
 				prAux = img.getPixelReader();
 
 				int x1 = 0;
@@ -166,6 +174,7 @@ public class FotoMosaico{
 						pw.setColor(k,l,prAux.getColor(x1,y1));
 						y1++;
 					}
+					y1 = 0;
 					x1++;
 				}
 			}

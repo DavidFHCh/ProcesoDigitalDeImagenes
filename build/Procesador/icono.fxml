@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="245.0" prefWidth="388.0" xmlns="http://javafx.com/javafx/8.0.76-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Procesador.Controlador">
+   <children>
+      <CheckBox fx:id="tamaño1" layoutX="69.0" layoutY="57.0" mnemonicParsing="false" text="16x16" />
+      <CheckBox fx:id="tamaño2" layoutX="69.0" layoutY="94.0" mnemonicParsing="false" text="32x32" />
+      <CheckBox fx:id="tamaño3" layoutX="69.0" layoutY="135.0" mnemonicParsing="false" text="64x64" />
+      <CheckBox fx:id="tamaño4" layoutX="69.0" layoutY="171.0" mnemonicParsing="false" text="128x128" />
+      <Button fx:id="buttonAccept1" layoutX="287.0" layoutY="199.0" mnemonicParsing="false" onAction="#filtroIconoAux" text="Aceptar" />
+      <Label layoutX="94.0" layoutY="28.0" text="Selecciona tamaño de Icono" />
+      <CheckBox fx:id="mosa" layoutX="213.0" layoutY="114.0" mnemonicParsing="false" text="Mosaico" />
+   </children>
+</AnchorPane>
