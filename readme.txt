@@ -1,6 +1,12 @@
 Hernandez Chiapa David Felipe
 312321329
 
+Proyecto Final Proceso Digital de Imagenes
+
+se requiere java 1.8 o superior.
+
+se requiere ant.
+
 Para correr el Proyecto basta hacer 
 $ant run
 
