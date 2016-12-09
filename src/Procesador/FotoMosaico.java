@@ -128,6 +128,21 @@ public class FotoMosaico{
 			if(act < min)
 				minima = actual;
 		}
+
+		Random ran = new Random();
+		ArrayList<Imagen> minimas = new ArrayList<>();
+		minimas.add(minima);
+		for(int i = 0; i < l.size(); i++){
+			actual = l.get(i);
+			act = dist(actual.getR(),actual.getG(),actual.getB(),red1,green1,blue1);
+			if(act == min){
+				minima = actual;
+				minimas.add(minima);
+			}
+		}
+
+		minima = minimas.get(ran.nextInt(minimas.size()));
+
 		Image im = null;
 		try{im = new Image(new FileInputStream(new File(minima.getNombre())));}
 		catch(Exception e){}
@@ -153,6 +168,7 @@ public class FotoMosaico{
 		Color c = null;
 		Image img = null;
 		ArrayList<Imagen> imgs = obtenImagenes(dir);
+		System.out.println("Ya acabe de obtener las imagenes de la biblioteca.");
 		int x = width/regionAncho;
 		int y = height/regionAlto;
 		WritableImage wimg = new WritableImage(x,y);
@@ -171,8 +187,8 @@ public class FotoMosaico{
 
 				int x1 = 0;
 				int y1 = 0;
-				for(int k = i*regionAncho; k < (i+1)*regionAncho;k++){
-					for(int l = j*regionAlto; l < (j+1)*regionAlto;l++){
+				for(int k = i*imagenPequeñaAncho; k < (i+1)*imagenPequeñaAncho;k++){
+					for(int l = j*imagenPequeñaAlto; l < (j+1)*imagenPequeñaAlto;l++){
 						pw.setColor(k,l,prAux.getColor(x1,y1));
 						y1++;
 					}
@@ -181,6 +197,7 @@ public class FotoMosaico{
 				}
 			}
 		}
+		System.out.println("Ya acabe.");
 		}catch(Exception e){e.printStackTrace();}
 	}
 }
