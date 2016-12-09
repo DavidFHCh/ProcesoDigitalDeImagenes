@@ -135,8 +135,10 @@ public class FotoMosaico{
             WritableImage wimg = new WritableImage(imagenPequeñaAncho,imagenPequeñaAlto);
         	    PixelReader prAu = im.getPixelReader();
         	    PixelWriter pwAu =  wimg.getPixelWriter();
-            Reducir redu = new Reducir(pwAux,prAux,(int)im.getWidth(),(int)im.getHeight(),imagenPequeñaAlto,imagenPequeñaAncho);
+        	    try{
+            Reducir redu = new Reducir(pwAu,prAu,(int)im.getWidth(),(int)im.getHeight(),imagenPequeñaAlto,imagenPequeñaAncho);
 				redu.run();
+			}catch(Exception e){}
 
 		return wimg;
 	}
